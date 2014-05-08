@@ -37,7 +37,7 @@ public class PlayMusicHelper {
     private static MusicCoords                  currentSoundSourceServer = new MusicCoords(0, -1, 0, 0);      // holds the position the server thinks a record is being played on clients
     private static boolean                      isServerPlaying          = false;                             // Indicates if the server thinks that are clients playing records.
 
-    @SideOnly(Side.CLIENT)
+    //@SideOnly(Side.CLIENT)
     public static MusicCoords                   lastSoundSourceClient    = new MusicCoords(0, -1, 0, 0);      // holds the position of the last "streaming" sound source played on the client
 
     public static final int                     musicCheckTickSize       = 20;                                // Size of the server tick to check if music is playing (every server tick, responses will be processed)
@@ -181,7 +181,7 @@ public class PlayMusicHelper {
      *    PLAY MUSIC METHODS
      ----------------------------------------------------------------------------*/
 
-    @SideOnly(Side.CLIENT)
+  //  @SideOnly(Side.CLIENT)
     public static boolean playAnyRecordAt(String songID, int x, int y, int z, boolean showName, float volumeExtender) {
 
         // Debug
@@ -236,7 +236,7 @@ public class PlayMusicHelper {
     /*
      * Re-implementation of the [RenderGlobal.playRecord] and [SoundManager.playStreaming].
      */
-    @SideOnly(Side.CLIENT)
+ //   @SideOnly(Side.CLIENT)
     private static boolean playCustomRecordAt(String songID, int x, int y, int z, boolean showName, float volumeExtender) {
         // Debug
         ModRedstoneJukebox.logDebugInfo("PlayMusicHelper.playCustomRecordAt(" + songID + ", " + x + ", " + y + ", " + z + ", " + showName + ", " + volumeExtender + ")");
@@ -299,7 +299,7 @@ public class PlayMusicHelper {
     /*
      * Re-implementation of the [RenderGlobal.playRecord] and [SoundManager.playStreaming].
      */
-    @SideOnly(Side.CLIENT)
+ //   @SideOnly(Side.CLIENT)
     private static boolean playVanillaRecordAt(String songID, int x, int y, int z, boolean showName, float volumeExtender) {
         // Debug
         ModRedstoneJukebox.logDebugInfo("PlayMusicHelper.playVanillaRecordAt(" + songID + ", " + x + ", " + y + ", " + z + ", " + showName + ", " + volumeExtender + ")");
@@ -360,7 +360,7 @@ public class PlayMusicHelper {
     }
 
 
-    @SideOnly(Side.CLIENT)
+//    @SideOnly(Side.CLIENT)
     public static boolean playBgMusic(String songName, boolean isRecord, boolean showName) {
         // Debug
         ModRedstoneJukebox.logDebugInfo("PlayMusicHelper.playBgMusic(" + songName + ", " + isRecord + ", " + showName + ")");
