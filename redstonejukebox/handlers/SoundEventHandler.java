@@ -1,11 +1,11 @@
-package sidben.redstonejukebox.client;
+package redstonejukebox.handlers;
 
 
 import net.minecraftforge.client.event.sound.PlayStreamingSourceEvent;
 import net.minecraftforge.event.ForgeSubscribe;
-import sidben.redstonejukebox.ModRedstoneJukebox;
-import sidben.redstonejukebox.helper.MusicCoords;
-import sidben.redstonejukebox.helper.PlayMusicHelper;
+import redstonejukebox.ModRedstoneJukebox;
+import redstonejukebox.helper.MusicCoords;
+import redstonejukebox.helper.PlayMusicHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

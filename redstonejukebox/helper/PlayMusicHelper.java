@@ -1,4 +1,4 @@
-package sidben.redstonejukebox.helper;
+package redstonejukebox.helper;
 
 
 import java.util.HashMap;
@@ -14,7 +14,8 @@ import net.minecraftforge.client.event.sound.PlayStreamingSourceEvent;
 import net.minecraftforge.client.event.sound.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
 import paulscode.sound.SoundSystemConfig;
-import sidben.redstonejukebox.ModRedstoneJukebox;
+import redstonejukebox.ModRedstoneJukebox;
+import redstonejukebox.handlers.MusicTickHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

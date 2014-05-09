@@ -1,4 +1,4 @@
-package sidben.redstonejukebox.client;
+package redstonejukebox.gui;
 
 
 import net.minecraft.client.Minecraft;
@@ -6,7 +6,7 @@ import net.minecraft.client.gui.GuiButton;
 
 import org.lwjgl.opengl.GL11;
 
-import sidben.redstonejukebox.ModRedstoneJukebox;
+import redstonejukebox.ModRedstoneJukebox;
 
 
 

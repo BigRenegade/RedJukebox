@@ -1,4 +1,4 @@
-package sidben.redstonejukebox;
+package redstonejukebox.config;
 
 
 /*
@@ -19,8 +19,10 @@ public class Reference {
 
     public static final String  ResourcesNamespace = "redstonejukebox";
 
-    public static final String  ServerProxyClass   = "sidben.redstonejukebox.common.CommonProxy";
-    public static final String  ClientProxyClass   = "sidben.redstonejukebox.client.ClientProxy";
+    public static final String  ServerProxyClass   = "redstonejukebox.proxies.CommonProxy";
+    public static final String  ClientProxyClass   = "redstonejukebox.proxies.ClientProxy";
+    
+    
 
 
 }

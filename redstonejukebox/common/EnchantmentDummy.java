@@ -1,10 +1,10 @@
-package sidben.redstonejukebox.common;
+package redstonejukebox.common;
 
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.ItemStack;
-import sidben.redstonejukebox.ModRedstoneJukebox;
+import redstonejukebox.ModRedstoneJukebox;
 
 
 

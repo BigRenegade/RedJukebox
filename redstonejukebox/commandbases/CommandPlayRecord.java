@@ -1,4 +1,4 @@
-package sidben.redstonejukebox.common;
+package redstonejukebox.commandbases;
 
 
 import java.util.List;
@@ -7,8 +7,8 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
-import sidben.redstonejukebox.helper.CustomRecordHelper;
-import sidben.redstonejukebox.net.PacketHelper;
+import redstonejukebox.helper.CustomRecordHelper;
+import redstonejukebox.network.PacketHelper;
 
 
 

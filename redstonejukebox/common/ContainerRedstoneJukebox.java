@@ -1,6 +1,7 @@
-package sidben.redstonejukebox.common;
+package redstonejukebox.common;
 
 
+import redstonejukebox.tileentites.TileEntityRedstoneJukebox;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -53,6 +54,7 @@ public class ContainerRedstoneJukebox extends Container {
         for (int i = 0; i < 3; i++) {
             for (int k = 0; k < 9; k++) {
                 this.addSlotToContainer(new Slot(inventoryPlayer, k + i * 9 + 9, 8 + k * 18, 96 + i * 18));
+                //this.addSlotToContainer(new Slot(inventoryPlayer, k + i * 9 + 9, 8 + k * 18, 96 + i * 18));
             }
         }
 
@@ -78,9 +80,9 @@ public class ContainerRedstoneJukebox extends Container {
     public ItemStack transferStackInSlot(EntityPlayer player, int slotnumber) {
         /*
          * slotnumber:
-         * 0-7 = jukebox
-         * 8-34 = player inventory
-         * 35-43 = player hotbar
+         * 0-23 = jukebox
+         * 24-50 = player inventory
+         * 51-60 = player hotbar
          * 
          * 
          * mergeItemStack(i, a, b, r)
@@ -105,12 +107,12 @@ public class ContainerRedstoneJukebox extends Container {
 
             if (slotnumber < 24) {
                 // send item from the jukebox to the player
-                if (!this.mergeItemStack(myStack, 0, 24, true)) return null;
+                if (!this.mergeItemStack(myStack, 0, 23, true)) return null;
             }
             else {
                 // send a record to the jukebox
                 if (SlotRedstoneJukeboxRecord.isRecord(myStack)) {
-                    if (!this.mergeItemStack(myStack, 25, 59, false)) return null;
+                    if (!this.mergeItemStack(myStack, 24, 60, false)) return null;
                 }
                 else
                     return null;

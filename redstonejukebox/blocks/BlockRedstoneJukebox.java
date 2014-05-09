@@ -1,4 +1,4 @@
-package sidben.redstonejukebox.common;
+package redstonejukebox.blocks;
 
 
 import java.util.Random;
@@ -12,7 +12,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import sidben.redstonejukebox.ModRedstoneJukebox;
+import redstonejukebox.ModRedstoneJukebox;
+import redstonejukebox.tileentites.TileEntityRedstoneJukebox;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

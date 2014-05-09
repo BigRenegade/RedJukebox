@@ -1,4 +1,4 @@
-package sidben.redstonejukebox.helper;
+package redstonejukebox.helper;
 
 
 import java.net.URL;

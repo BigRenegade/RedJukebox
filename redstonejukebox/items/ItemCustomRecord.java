@@ -1,4 +1,4 @@
-package sidben.redstonejukebox.common;
+package redstonejukebox.items;
 
 
 import java.util.List;
@@ -12,11 +12,11 @@ import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
-import sidben.redstonejukebox.JukeboxTab;
-import sidben.redstonejukebox.ModRedstoneJukebox;
-import sidben.redstonejukebox.helper.CustomRecordHelper;
-import sidben.redstonejukebox.helper.CustomRecordObject;
-import sidben.redstonejukebox.net.PacketHelper;
+import redstonejukebox.ModRedstoneJukebox;
+import redstonejukebox.common.JukeboxTab;
+import redstonejukebox.helper.CustomRecordHelper;
+import redstonejukebox.helper.CustomRecordObject;
+import redstonejukebox.network.PacketHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

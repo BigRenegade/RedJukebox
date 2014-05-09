@@ -1,10 +1,11 @@
-package sidben.redstonejukebox.helper;
+package redstonejukebox.handlers;
 
 
 import java.util.EnumSet;
 
-import sidben.redstonejukebox.ModRedstoneJukebox;
-import sidben.redstonejukebox.net.PacketHelper;
+import redstonejukebox.ModRedstoneJukebox;
+import redstonejukebox.helper.PlayMusicHelper;
+import redstonejukebox.network.PacketHelper;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.IScheduledTickHandler;
 import cpw.mods.fml.common.TickType;

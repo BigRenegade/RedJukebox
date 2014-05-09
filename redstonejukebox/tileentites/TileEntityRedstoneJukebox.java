@@ -1,4 +1,4 @@
-package sidben.redstonejukebox.common;
+package redstonejukebox.tileentites;
 
 
 import java.util.logging.Level;
@@ -17,9 +17,11 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import sidben.redstonejukebox.ModRedstoneJukebox;
-import sidben.redstonejukebox.helper.PlayMusicHelper;
-import sidben.redstonejukebox.net.PacketHelper;
+import redstonejukebox.ModRedstoneJukebox;
+import redstonejukebox.blocks.BlockRedstoneJukebox;
+import redstonejukebox.helper.PlayMusicHelper;
+import redstonejukebox.items.ItemCustomRecord;
+import redstonejukebox.network.PacketHelper;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 
@@ -36,10 +38,10 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory 
 	
     private static int  maxDelay               = 20;
     public int          delay                  = TileEntityRedstoneJukebox.maxDelay;
-    public int			maxStack			   = 24;
+    public int			maxAmount			   = 24;
 
     // -- Items of this jukebox
-    private ItemStack[] jukeboxPlaylist        = new ItemStack[maxStack];
+    private ItemStack[] jukeboxPlaylist        = new ItemStack[maxAmount];
 
     // -- Play mode
     /*
@@ -56,7 +58,7 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory 
     public float 		isVolume 				= 0;
 
 	// -- Array with the order in which the records will play (playlist). used for the shuffle option.
-    private int[]		playOrder				= new int[maxStack];
+    private int[]		playOrder				= new int[maxAmount];
 
     // -- Indicates if this jukebox started to play a playlist
     private boolean		isActive				= false;
@@ -76,15 +78,6 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory 
 
     // Some "force" flag to trigger the right behavior.
     private boolean		forceStop				= false;                             // -- Forces the jukebox stop.
-
-
-
-
-    /*--------------------------------------------------------------------
-    	Constructors
-    --------------------------------------------------------------------*/
-
-    
 
 
     /*--------------------------------------------------------------------
@@ -441,7 +434,8 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory 
     // Checks to see if this block/tileentity is the source music on clients
     // (With help of the PlayMusic Class and the MusicTickHandler)
     private boolean getIsPlayingOnClients() {
-        if (!this.worldObj.isRemote) return PlayMusicHelper.AreClientsPlayingRecordAt(this.xCoord, this.yCoord, this.zCoord, this.worldObj.provider.dimensionId);
+        if (!this.worldObj.isRemote)
+        	return PlayMusicHelper.AreClientsPlayingRecordAt(this.xCoord, this.yCoord, this.zCoord, this.worldObj.provider.dimensionId);
 
         return false;
     }

@@ -1,4 +1,4 @@
-package sidben.redstonejukebox;
+package redstonejukebox;
 
 
 import java.util.logging.Level;
@@ -11,19 +11,21 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
-import sidben.redstonejukebox.client.PlayerEventHandler;
-import sidben.redstonejukebox.client.SoundEventHandler;
-import sidben.redstonejukebox.common.BlockRedstoneJukebox;
-import sidben.redstonejukebox.common.CommandPlayBgMusic;
-import sidben.redstonejukebox.common.CommandPlayRecord;
-import sidben.redstonejukebox.common.CommandPlayRecordAt;
-import sidben.redstonejukebox.common.CommonProxy;
-import sidben.redstonejukebox.common.ItemBlankRecord;
-import sidben.redstonejukebox.common.ItemCustomRecord;
-import sidben.redstonejukebox.common.TileEntityRedstoneJukebox;
-import sidben.redstonejukebox.helper.CustomRecordHelper;
-import sidben.redstonejukebox.helper.CustomRecordObject;
-import sidben.redstonejukebox.helper.MusicTickHandler;
+import redstonejukebox.blocks.BlockRedstoneJukebox;
+import redstonejukebox.commandbases.CommandPlayBgMusic;
+import redstonejukebox.commandbases.CommandPlayRecord;
+import redstonejukebox.commandbases.CommandPlayRecordAt;
+import redstonejukebox.common.JukeboxTab;
+import redstonejukebox.config.Reference;
+import redstonejukebox.handlers.MusicTickHandler;
+import redstonejukebox.handlers.PlayerEventHandler;
+import redstonejukebox.handlers.SoundEventHandler;
+import redstonejukebox.helper.CustomRecordHelper;
+import redstonejukebox.helper.CustomRecordObject;
+import redstonejukebox.items.ItemBlankRecord;
+import redstonejukebox.items.ItemCustomRecord;
+import redstonejukebox.proxies.CommonProxy;
+import redstonejukebox.tileentites.TileEntityRedstoneJukebox;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -43,7 +45,7 @@ import cpw.mods.fml.relauncher.Side;
 
 
 @Mod(modid = Reference.ModID, name = Reference.ModName, version = Reference.ModVersion)
-@NetworkMod(clientSideRequired = true, serverSideRequired = false, channels = { Reference.Channel }, packetHandler = sidben.redstonejukebox.net.PacketHandler.class)
+@NetworkMod(clientSideRequired = true, serverSideRequired = false, channels = { Reference.Channel }, packetHandler = redstonejukebox.network.PacketHandler.class)
 public class ModRedstoneJukebox {
 
 

@@ -1,4 +1,4 @@
-package sidben.redstonejukebox.common;
+package redstonejukebox.common;
 
 
 import net.minecraft.entity.player.EntityPlayer;

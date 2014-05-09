@@ -1,4 +1,4 @@
-package sidben.redstonejukebox.client;
+package redstonejukebox.gui;
 
 
 import net.minecraft.client.Minecraft;
@@ -13,10 +13,10 @@ import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
-import sidben.redstonejukebox.ModRedstoneJukebox;
-import sidben.redstonejukebox.common.ContainerRedstoneJukebox;
-import sidben.redstonejukebox.common.TileEntityRedstoneJukebox;
-import sidben.redstonejukebox.net.PacketHelper;
+import redstonejukebox.ModRedstoneJukebox;
+import redstonejukebox.common.ContainerRedstoneJukebox;
+import redstonejukebox.network.PacketHelper;
+import redstonejukebox.tileentites.TileEntityRedstoneJukebox;
 
 
 

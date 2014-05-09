@@ -1,4 +1,4 @@
-package sidben.redstonejukebox.common;
+package redstonejukebox.common;
 
 
 import net.minecraft.entity.Entity;
@@ -8,7 +8,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
-import sidben.redstonejukebox.helper.CustomRecordHelper;
+import redstonejukebox.helper.CustomRecordHelper;
 
 
 

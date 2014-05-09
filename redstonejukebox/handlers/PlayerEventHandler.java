@@ -1,11 +1,11 @@
-package sidben.redstonejukebox.client;
+package redstonejukebox.handlers;
 
 
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
-import sidben.redstonejukebox.ModRedstoneJukebox;
+import redstonejukebox.ModRedstoneJukebox;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

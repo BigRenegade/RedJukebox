@@ -1,9 +1,10 @@
-package sidben.redstonejukebox;
+package redstonejukebox.common;
 
 
 /*
  * Inspired by EE3 from Pahimar
  */
+import redstonejukebox.ModRedstoneJukebox;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;

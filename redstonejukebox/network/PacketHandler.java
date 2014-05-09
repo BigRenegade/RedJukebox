@@ -1,4 +1,4 @@
-package sidben.redstonejukebox.net;
+package redstonejukebox.network;
 
 
 import java.io.ByteArrayInputStream;
@@ -10,12 +10,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.src.ModLoader;
-import sidben.redstonejukebox.ModRedstoneJukebox;
-import sidben.redstonejukebox.Reference;
-import sidben.redstonejukebox.common.ContainerRecordTrading;
-import sidben.redstonejukebox.common.ContainerRedstoneJukebox;
-import sidben.redstonejukebox.common.TileEntityRedstoneJukebox;
-import sidben.redstonejukebox.helper.PlayMusicHelper;
+import redstonejukebox.ModRedstoneJukebox;
+import redstonejukebox.common.ContainerRecordTrading;
+import redstonejukebox.common.ContainerRedstoneJukebox;
+import redstonejukebox.config.Reference;
+import redstonejukebox.helper.PlayMusicHelper;
+import redstonejukebox.tileentites.TileEntityRedstoneJukebox;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.Player;

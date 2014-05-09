@@ -1,4 +1,4 @@
-package sidben.redstonejukebox.client;
+package redstonejukebox.renderers;
 
 
 import net.minecraft.block.Block;
@@ -9,7 +9,7 @@ import net.minecraft.world.IBlockAccess;
 
 import org.lwjgl.opengl.GL11;
 
-import sidben.redstonejukebox.ModRedstoneJukebox;
+import redstonejukebox.ModRedstoneJukebox;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 

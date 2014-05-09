@@ -1,14 +1,16 @@
-package sidben.redstonejukebox.client;
+package redstonejukebox.proxies;
 
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-import sidben.redstonejukebox.ModRedstoneJukebox;
-import sidben.redstonejukebox.common.CommonProxy;
-import sidben.redstonejukebox.common.TileEntityRedstoneJukebox;
-import sidben.redstonejukebox.helper.CustomRecordHelper;
+import redstonejukebox.ModRedstoneJukebox;
+import redstonejukebox.gui.GuiRecordTrading;
+import redstonejukebox.gui.GuiRedstoneJukebox;
+import redstonejukebox.helper.CustomRecordHelper;
+import redstonejukebox.renderers.RenderRedstoneJukebox;
+import redstonejukebox.tileentites.TileEntityRedstoneJukebox;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 

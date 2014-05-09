@@ -1,4 +1,4 @@
-package sidben.redstonejukebox.helper;
+package redstonejukebox.helper;
 
 
 import java.io.File;
@@ -20,7 +20,7 @@ import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
-import sidben.redstonejukebox.ModRedstoneJukebox;
+import redstonejukebox.ModRedstoneJukebox;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 

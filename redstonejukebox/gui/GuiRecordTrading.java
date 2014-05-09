@@ -1,4 +1,4 @@
-package sidben.redstonejukebox.client;
+package redstonejukebox.gui;
 
 
 import java.util.Random;
@@ -19,10 +19,10 @@ import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import sidben.redstonejukebox.ModRedstoneJukebox;
-import sidben.redstonejukebox.common.ContainerRecordTrading;
-import sidben.redstonejukebox.helper.CustomRecordHelper;
-import sidben.redstonejukebox.net.PacketHelper;
+import redstonejukebox.ModRedstoneJukebox;
+import redstonejukebox.common.ContainerRecordTrading;
+import redstonejukebox.helper.CustomRecordHelper;
+import redstonejukebox.network.PacketHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

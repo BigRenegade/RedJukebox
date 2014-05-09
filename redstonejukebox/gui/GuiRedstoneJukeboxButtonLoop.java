@@ -1,4 +1,4 @@
-package sidben.redstonejukebox.client;
+package redstonejukebox.gui;
 
 
 import net.minecraft.client.Minecraft;
@@ -6,20 +6,20 @@ import net.minecraft.client.gui.GuiButton;
 
 import org.lwjgl.opengl.GL11;
 
-import sidben.redstonejukebox.ModRedstoneJukebox;
+import redstonejukebox.ModRedstoneJukebox;
 
 
 
-public class GuiRedstoneJukeboxButtonVolumeUp extends GuiButton {
+public class GuiRedstoneJukeboxButtonLoop extends GuiButton {
 
 
     protected static int myWidth  = 24;
-    protected static int myHeight = 12;
+    protected static int myHeight = 25;
 
 
 
-    public GuiRedstoneJukeboxButtonVolumeUp(int index, int x, int y) {
-        super(index, x, y, GuiRedstoneJukeboxButtonVolumeUp.myWidth, GuiRedstoneJukeboxButtonVolumeUp.myHeight, "");
+    public GuiRedstoneJukeboxButtonLoop(int index, int x, int y) {
+        super(index, x, y, GuiRedstoneJukeboxButtonLoop.myWidth, GuiRedstoneJukeboxButtonLoop.myHeight, "");
     }
 
 
@@ -36,7 +36,7 @@ public class GuiRedstoneJukeboxButtonVolumeUp extends GuiButton {
             if (isMouseOver) {
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
                 par1Minecraft.getTextureManager().bindTexture(ModRedstoneJukebox.redstoneJukeboxGui);
-                this.drawTexturedModalRect(this.xPosition, this.yPosition, 116, 206, GuiRedstoneJukeboxButtonVolumeUp.myWidth, GuiRedstoneJukeboxButtonVolumeUp.myHeight);
+                this.drawTexturedModalRect(this.xPosition, this.yPosition + 2, 0, 206, GuiRedstoneJukeboxButtonLoop.myWidth, GuiRedstoneJukeboxButtonLoop.myHeight);
             }
         }
     }

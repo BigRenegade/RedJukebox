@@ -1,4 +1,4 @@
-package sidben.redstonejukebox.net;
+package redstonejukebox.network;
 
 
 import java.io.ByteArrayOutputStream;
@@ -7,8 +7,8 @@ import java.util.Random;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.packet.Packet250CustomPayload;
-import sidben.redstonejukebox.ModRedstoneJukebox;
-import sidben.redstonejukebox.Reference;
+import redstonejukebox.ModRedstoneJukebox;
+import redstonejukebox.config.Reference;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
