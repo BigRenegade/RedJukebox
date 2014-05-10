@@ -38,7 +38,7 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory 
 	
     private static int  maxDelay               = 20;
     public int          delay                  = TileEntityRedstoneJukebox.maxDelay;
-    public int			maxAmount			   = 24;
+    public int			maxAmount			   = 81;
 
     // -- Items of this jukebox
     private ItemStack[] jukeboxPlaylist        = new ItemStack[maxAmount];
@@ -48,7 +48,7 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory 
      * 0 = Simple (in order)
      * 1 = Shuffle
      */
-    public int			playMode				= 0;
+    public int			playMode			= 0;
 
     // -- Indicates if it should loop when reach the end of a playlist
     public boolean		isLoop					= false;
@@ -231,7 +231,7 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory 
             }
         }
 
-        this.playMode = par1NBTTagCompound.getShort("PlayMode");
+        this.playMode = par1NBTTagCompound.getInteger("PlayMode");
         this.isLoop = par1NBTTagCompound.getBoolean("Loop");
         this.isActive = par1NBTTagCompound.getBoolean("Active");
         this.isVolume = par1NBTTagCompound.getFloat("Volume");
@@ -246,7 +246,7 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory 
     @Override
     public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
         super.writeToNBT(par1NBTTagCompound);
-        par1NBTTagCompound.setShort("PlayMode", (short) this.playMode);
+        par1NBTTagCompound.setInteger("PlayMode", this.playMode);
         par1NBTTagCompound.setBoolean("Loop", this.isLoop);
         par1NBTTagCompound.setBoolean("Active", this.isActive);
         par1NBTTagCompound.setFloat("Volume", this.isVolume );
@@ -283,7 +283,7 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory 
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
             NBTTagCompound tag = packet.data;
 
-            this.playMode = tag.getShort("PlayMode");
+            this.playMode = tag.getInteger("PlayMode");
             this.isLoop = tag.getBoolean("Loop");
             this.isActive = tag.getBoolean("Active");
             this.isVolume = tag.getFloat("Volume");
@@ -602,7 +602,7 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory 
     // -- Set the playlist order. Also, resets the NEXTPLAYSLOT to the first position.
     private void setPlaylistOrder() {
         // Debug
-        ModRedstoneJukebox.logDebugInfo("TileEntityRedstoneJukebox.setPlaylistOrder() - Shuffle: " + (this.playMode == 1));
+        ModRedstoneJukebox.logDebugInfo("TileEntityRedstoneJukebox.setPlaylistOrder() - Shuffle: " + (this.playMode));
 
         int totalRecords = 0;
         boolean validRecord = false;

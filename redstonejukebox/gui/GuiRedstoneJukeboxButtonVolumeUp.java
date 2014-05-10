@@ -13,8 +13,8 @@ import redstonejukebox.ModRedstoneJukebox;
 public class GuiRedstoneJukeboxButtonVolumeUp extends GuiButton {
 
 
-    protected static int myWidth  = 24;
-    protected static int myHeight = 12;
+    protected static int myWidth  = 9;
+    protected static int myHeight = 9;
 
 
 
@@ -36,7 +36,7 @@ public class GuiRedstoneJukeboxButtonVolumeUp extends GuiButton {
             if (isMouseOver) {
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
                 par1Minecraft.getTextureManager().bindTexture(ModRedstoneJukebox.redstoneJukeboxGui);
-                this.drawTexturedModalRect(this.xPosition, this.yPosition, 116, 206, GuiRedstoneJukeboxButtonVolumeUp.myWidth, GuiRedstoneJukeboxButtonVolumeUp.myHeight);
+                this.drawTexturedModalRect(this.xPosition, this.yPosition, 19, 206, GuiRedstoneJukeboxButtonVolumeUp.myWidth, GuiRedstoneJukeboxButtonVolumeUp.myHeight);
             }
         }
     }

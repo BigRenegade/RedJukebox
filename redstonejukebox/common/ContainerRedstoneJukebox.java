@@ -23,38 +23,19 @@ public class ContainerRedstoneJukebox extends Container {
 
 
         // --- Slots of the Jukebox
-        this.addSlotToContainer(new SlotRedstoneJukeboxRecord(this.teJukebox, 0, 26, -20));
-        this.addSlotToContainer(new SlotRedstoneJukeboxRecord(this.teJukebox, 1, 44, -20));
-        this.addSlotToContainer(new SlotRedstoneJukeboxRecord(this.teJukebox, 2, 62, -20));
-        this.addSlotToContainer(new SlotRedstoneJukeboxRecord(this.teJukebox, 3, 80, -20));
-        this.addSlotToContainer(new SlotRedstoneJukeboxRecord(this.teJukebox, 4, 98, -20));
-        this.addSlotToContainer(new SlotRedstoneJukeboxRecord(this.teJukebox, 5, 116, -20));
-        this.addSlotToContainer(new SlotRedstoneJukeboxRecord(this.teJukebox, 6, 134, -20));
-        this.addSlotToContainer(new SlotRedstoneJukeboxRecord(this.teJukebox, 7, 152, -20));
 
-        this.addSlotToContainer(new SlotRedstoneJukeboxRecord(this.teJukebox, 8, 26, 0));
-        this.addSlotToContainer(new SlotRedstoneJukeboxRecord(this.teJukebox, 9, 44, 0));
-        this.addSlotToContainer(new SlotRedstoneJukeboxRecord(this.teJukebox, 10, 62, 0));
-        this.addSlotToContainer(new SlotRedstoneJukeboxRecord(this.teJukebox, 11, 80, 0));
-        this.addSlotToContainer(new SlotRedstoneJukeboxRecord(this.teJukebox, 12, 98, 0));
-        this.addSlotToContainer(new SlotRedstoneJukeboxRecord(this.teJukebox, 13, 116, 0));
-        this.addSlotToContainer(new SlotRedstoneJukeboxRecord(this.teJukebox, 14, 134, 0));
-        this.addSlotToContainer(new SlotRedstoneJukeboxRecord(this.teJukebox, 15, 152, 0));
-
-        this.addSlotToContainer(new SlotRedstoneJukeboxRecord(this.teJukebox, 16, 26, 20));
-        this.addSlotToContainer(new SlotRedstoneJukeboxRecord(this.teJukebox, 17, 44, 20));
-        this.addSlotToContainer(new SlotRedstoneJukeboxRecord(this.teJukebox, 18, 62, 20));
-        this.addSlotToContainer(new SlotRedstoneJukeboxRecord(this.teJukebox, 19, 80, 20));
-        this.addSlotToContainer(new SlotRedstoneJukeboxRecord(this.teJukebox, 20, 98, 20));
-        this.addSlotToContainer(new SlotRedstoneJukeboxRecord(this.teJukebox, 21, 116, 20));
-        this.addSlotToContainer(new SlotRedstoneJukeboxRecord(this.teJukebox, 22, 134, 20));
-        this.addSlotToContainer(new SlotRedstoneJukeboxRecord(this.teJukebox, 23, 152, 20));
+        for (int i = 0; i < 5; i++) {
+            for (int k = 0; k < 9; k++) {
+                this.addSlotToContainer(new SlotRedstoneJukeboxRecord(this.teJukebox, k + i * 9 + 9, 8 + k * 18, -20 + i * 20));
+            }
+        }
+        
+        
 
         // -- Player inventory
         for (int i = 0; i < 3; i++) {
             for (int k = 0; k < 9; k++) {
                 this.addSlotToContainer(new Slot(inventoryPlayer, k + i * 9 + 9, 8 + k * 18, 96 + i * 18));
-                //this.addSlotToContainer(new Slot(inventoryPlayer, k + i * 9 + 9, 8 + k * 18, 96 + i * 18));
             }
         }
 
@@ -105,14 +86,14 @@ public class ContainerRedstoneJukebox extends Container {
             returnStack = myStack.copy();
 
 
-            if (slotnumber < 24) {
+            if (slotnumber < 45) {
                 // send item from the jukebox to the player
-                if (!this.mergeItemStack(myStack, 0, 23, true)) return null;
+                if (!this.mergeItemStack(myStack, 0, 44, true)) return null;
             }
             else {
                 // send a record to the jukebox
                 if (SlotRedstoneJukeboxRecord.isRecord(myStack)) {
-                    if (!this.mergeItemStack(myStack, 24, 60, false)) return null;
+                    if (!this.mergeItemStack(myStack, 0, 9, false)) return null;
                 }
                 else
                     return null;

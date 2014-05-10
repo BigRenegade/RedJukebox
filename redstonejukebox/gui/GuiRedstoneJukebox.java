@@ -51,32 +51,13 @@ public class GuiRedstoneJukebox extends GuiContainer {
     public void initGui() {
         super.initGui();
 
-        this.buttonList.add(new GuiRedstoneJukeboxButtonLoop(0, this.guiLeft + 5, this.guiTop + 51));
-        this.buttonList.add(new GuiRedstoneJukeboxButtonLoop(1, this.guiLeft + 28, this.guiTop + 51));
-        this.buttonList.add(new GuiRedstoneJukeboxButtonPlayMode(2, this.guiLeft + 79, this.guiTop + 51));
-        this.buttonList.add(new GuiRedstoneJukeboxButtonVolumeUp(3, this.guiLeft + 51, this.guiTop + 51));
-        this.buttonList.add(new GuiRedstoneJukeboxButtonVolumeDown(4, this.guiLeft + 51, this.guiTop + 64));
+        this.buttonList.add(new GuiRedstoneJukeboxButtonLoop(0, this.guiLeft + 63, this.guiTop + 79));
+        this.buttonList.add(new GuiRedstoneJukeboxButtonVolumeUp(1, this.guiLeft + 89, this.guiTop + 79));
+        this.buttonList.add(new GuiRedstoneJukeboxButtonVolumeDown(2, this.guiLeft + 99, this.guiTop + 79));
+        this.buttonList.add(new GuiRedstoneJukeboxButtonPlayMode(3, this.guiLeft + 116, this.guiTop + 79));
     }
 
 
-
-
-    /**
-     * Called from the main game loop to update the screen.
-     */
-    @Override
-    public void updateScreen() {
-        super.updateScreen();
-
-        ++this.danceNoteCount;
-        if (this.danceNoteCount > GuiRedstoneJukebox.danceNoteSpeed) {
-            ++this.danceNoteFrame;
-            this.danceNoteCount = 0;
-        }
-        if (this.danceNoteFrame >= GuiRedstoneJukebox.danceNoteArrayX.length) {
-            this.danceNoteFrame = 0;
-        }
-    }
 
 
     /*
@@ -89,17 +70,33 @@ public class GuiRedstoneJukebox extends GuiContainer {
             switch (par1GuiButton.id) {
             case 0:
                 // Loop command: no loop
-                this.jukeboxInventory.isLoop = false;
+                if (!this.jukeboxInventory.isLoop) {
+                    this.jukeboxInventory.isLoop = true;
+                }
+                else {
+                    this.jukeboxInventory.isLoop = false;
+                }
                 break;
-
 
             case 1:
-                // Loop command: with loop
-                this.jukeboxInventory.isLoop = true;
-                break;
-
+                // Volume up command
+            	if (value <= 1.0F) {
+            		value += 0.05F;
+           	    	}
+            	this.jukeboxInventory.isVolume = value;
+            	Minecraft.getMinecraft().gameSettings.setOptionFloatValue(EnumOptions.MUSIC, value);
+            	break;
 
             case 2:
+                // Volume down command
+            	if (value > 0) {
+            		value -= 0.05F;
+           	    	}
+            	this.jukeboxInventory.isVolume = value;
+            	Minecraft.getMinecraft().gameSettings.setOptionFloatValue(EnumOptions.MUSIC, value);
+            	break;
+            	
+            case 3:
                 // Swap play mode (shuffle / normal)
                 if (this.jukeboxInventory.playMode == 0) {
                     this.jukeboxInventory.playMode = 1;
@@ -109,22 +106,6 @@ public class GuiRedstoneJukebox extends GuiContainer {
                 }
                 break;
 
-            case 3:
-                // Volume up command
-            	if (value <= 1.0F) {
-            		value += 0.05F;
-           	    	}
-            	this.jukeboxInventory.isVolume = value;
-            	Minecraft.getMinecraft().gameSettings.setOptionFloatValue(EnumOptions.MUSIC, value);
-            	break;
-
-            case 4:
-                // Volume down command
-            	if (value > 0) {
-            		value -= 0.05F;
-           	    	}
-            	this.jukeboxInventory.isVolume = value;
-            	Minecraft.getMinecraft().gameSettings.setOptionFloatValue(EnumOptions.MUSIC, value);
             }
 
 
@@ -148,23 +129,25 @@ public class GuiRedstoneJukebox extends GuiContainer {
         this.fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, this.ySize - 84, 4210752);
 
         // Tooltips
-        GuiButton btPlayOnce = (GuiButton) this.buttonList.get(0);
-        GuiButton btPlayLoop = (GuiButton) this.buttonList.get(1);
-        GuiButton btPlaymode = (GuiButton) this.buttonList.get(2);
-        GuiButton btVolumeUp = (GuiButton) this.buttonList.get(3);
-        GuiButton btVolumeDown = (GuiButton) this.buttonList.get(4);
+        GuiButton btPlayLoop = (GuiButton) this.buttonList.get(0);
+        GuiButton btVolumeUp = (GuiButton) this.buttonList.get(1);
+        GuiButton btVolumeDown = (GuiButton) this.buttonList.get(2);
+        GuiButton btPlaymode = (GuiButton) this.buttonList.get(3);
 
-        if (btPlayOnce.func_82252_a()) {
-            this.drawCreativeTabHoveringText("Play records only once", x - this.guiLeft, y - this.guiTop + 31);
-        }
-        else if (btPlayLoop.func_82252_a()) {
-            this.drawCreativeTabHoveringText("Play records in loop", x - this.guiLeft, y - this.guiTop + 31);
+        if (btPlayLoop.func_82252_a()) {
+        	if (!jukeboxInventory.isLoop)
+        	{
+            this.drawCreativeTabHoveringText("Play order: only once", x - this.guiLeft, y - this.guiTop + 31);
+        	}
+        	else {
+        		this.drawCreativeTabHoveringText("Play order: in a loop", x - this.guiLeft, y - this.guiTop + 31);
+        	}
         }
         else if (btVolumeUp.func_82252_a()) {
-            this.drawCreativeTabHoveringText("Adjust volume of music up", x - this.guiLeft, y - this.guiTop + 31);
+            this.drawCreativeTabHoveringText("Adjust volume up", x - this.guiLeft, y - this.guiTop + 31);
         }
         else if (btVolumeDown.func_82252_a()) {
-            this.drawCreativeTabHoveringText("Adjust volume of music down", x - this.guiLeft, y - this.guiTop + 31);
+            this.drawCreativeTabHoveringText("Adjust volume down", x - this.guiLeft, y - this.guiTop + 31);
         }
         else if (btPlaymode.func_82252_a()) {
             switch (this.jukeboxInventory.playMode) {
@@ -192,7 +175,7 @@ public class GuiRedstoneJukebox extends GuiContainer {
          * default GUI size:
          * -----------------------------------
          * width: 176
-         * height: 166
+         * height: 206
          * 
          * 
          * method Signature
@@ -209,97 +192,14 @@ public class GuiRedstoneJukebox extends GuiContainer {
         this.drawTexturedModalRect(j, k - 28, 0, 0, this.xSize, this.ySize + 40);
 
 
-
-
-        // -- current record indicator (blue note)
-        if (this.jukeboxInventory.isActive()) {
-
-            switch (this.jukeboxInventory.getCurrentJukeboxPlaySlot()) {
-            case 0:
-                this.drawTexturedModalRect(j + GuiRedstoneJukebox.danceNoteArrayX[this.danceNoteFrame] + 27, k + GuiRedstoneJukebox.danceNoteArrayY[this.danceNoteFrame] + 38, 176, 1, 12, 10);
-                break;
-            case 1:
-                this.drawTexturedModalRect(j + GuiRedstoneJukebox.danceNoteArrayX[this.danceNoteFrame] + 46, k + GuiRedstoneJukebox.danceNoteArrayY[this.danceNoteFrame] + 38, 176, 1, 12, 10);
-                break;
-            case 2:
-                this.drawTexturedModalRect(j + GuiRedstoneJukebox.danceNoteArrayX[this.danceNoteFrame] + 64, k + GuiRedstoneJukebox.danceNoteArrayY[this.danceNoteFrame] + 38, 176, 1, 12, 10);
-                break;
-            case 3:
-                this.drawTexturedModalRect(j + GuiRedstoneJukebox.danceNoteArrayX[this.danceNoteFrame] + 82, k + GuiRedstoneJukebox.danceNoteArrayY[this.danceNoteFrame] + 38, 176, 1, 12, 10);
-                break;
-            case 4:
-                this.drawTexturedModalRect(j + GuiRedstoneJukebox.danceNoteArrayX[this.danceNoteFrame] + 100, k + GuiRedstoneJukebox.danceNoteArrayY[this.danceNoteFrame] + 38, 176, 1, 12, 10);
-                break;
-            case 5:
-                this.drawTexturedModalRect(j + GuiRedstoneJukebox.danceNoteArrayX[this.danceNoteFrame] + 118, k + GuiRedstoneJukebox.danceNoteArrayY[this.danceNoteFrame] + 38, 176, 1, 12, 10);
-                break;
-            case 6:
-                this.drawTexturedModalRect(j + GuiRedstoneJukebox.danceNoteArrayX[this.danceNoteFrame] + 136, k + GuiRedstoneJukebox.danceNoteArrayY[this.danceNoteFrame] + 38, 176, 1, 12, 10);
-                break;
-            case 7:
-                this.drawTexturedModalRect(j + GuiRedstoneJukebox.danceNoteArrayX[this.danceNoteFrame] + 154, k + GuiRedstoneJukebox.danceNoteArrayY[this.danceNoteFrame] + 38, 176, 1, 12, 10);
-                break;
-            case 8:
-                this.drawTexturedModalRect(j + GuiRedstoneJukebox.danceNoteArrayX[this.danceNoteFrame] + 27, k + GuiRedstoneJukebox.danceNoteArrayY[this.danceNoteFrame] + 38, 176, 1, 12, 10);
-                break;
-            case 9:
-                this.drawTexturedModalRect(j + GuiRedstoneJukebox.danceNoteArrayX[this.danceNoteFrame] + 46, k + GuiRedstoneJukebox.danceNoteArrayY[this.danceNoteFrame] + 38, 176, 1, 12, 10);
-                break;
-            case 10:
-                this.drawTexturedModalRect(j + GuiRedstoneJukebox.danceNoteArrayX[this.danceNoteFrame] + 64, k + GuiRedstoneJukebox.danceNoteArrayY[this.danceNoteFrame] + 38, 176, 1, 12, 10);
-                break;
-            case 11:
-                this.drawTexturedModalRect(j + GuiRedstoneJukebox.danceNoteArrayX[this.danceNoteFrame] + 82, k + GuiRedstoneJukebox.danceNoteArrayY[this.danceNoteFrame] + 38, 176, 1, 12, 10);
-                break;
-            case 12:
-                this.drawTexturedModalRect(j + GuiRedstoneJukebox.danceNoteArrayX[this.danceNoteFrame] + 100, k + GuiRedstoneJukebox.danceNoteArrayY[this.danceNoteFrame] + 38, 176, 1, 12, 10);
-                break;
-            case 13:
-                this.drawTexturedModalRect(j + GuiRedstoneJukebox.danceNoteArrayX[this.danceNoteFrame] + 118, k + GuiRedstoneJukebox.danceNoteArrayY[this.danceNoteFrame] + 38, 176, 1, 12, 10);
-                break;
-            case 14:
-                this.drawTexturedModalRect(j + GuiRedstoneJukebox.danceNoteArrayX[this.danceNoteFrame] + 136, k + GuiRedstoneJukebox.danceNoteArrayY[this.danceNoteFrame] + 38, 176, 1, 12, 10);
-                break;
-            case 15:
-                this.drawTexturedModalRect(j + GuiRedstoneJukebox.danceNoteArrayX[this.danceNoteFrame] + 154, k + GuiRedstoneJukebox.danceNoteArrayY[this.danceNoteFrame] + 38, 176, 1, 12, 10);
-                break;
-            case 16:
-                this.drawTexturedModalRect(j + GuiRedstoneJukebox.danceNoteArrayX[this.danceNoteFrame] + 27, k + GuiRedstoneJukebox.danceNoteArrayY[this.danceNoteFrame] + 38, 176, 1, 12, 10);
-                break;
-            case 17:
-                this.drawTexturedModalRect(j + GuiRedstoneJukebox.danceNoteArrayX[this.danceNoteFrame] + 46, k + GuiRedstoneJukebox.danceNoteArrayY[this.danceNoteFrame] + 38, 176, 1, 12, 10);
-                break;
-            case 18:
-                this.drawTexturedModalRect(j + GuiRedstoneJukebox.danceNoteArrayX[this.danceNoteFrame] + 64, k + GuiRedstoneJukebox.danceNoteArrayY[this.danceNoteFrame] + 38, 176, 1, 12, 10);
-                break;
-            case 19:
-                this.drawTexturedModalRect(j + GuiRedstoneJukebox.danceNoteArrayX[this.danceNoteFrame] + 82, k + GuiRedstoneJukebox.danceNoteArrayY[this.danceNoteFrame] + 38, 176, 1, 12, 10);
-                break;
-            case 20:
-                this.drawTexturedModalRect(j + GuiRedstoneJukebox.danceNoteArrayX[this.danceNoteFrame] + 100, k + GuiRedstoneJukebox.danceNoteArrayY[this.danceNoteFrame] + 38, 176, 1, 12, 10);
-                break;
-            case 21:
-                this.drawTexturedModalRect(j + GuiRedstoneJukebox.danceNoteArrayX[this.danceNoteFrame] + 118, k + GuiRedstoneJukebox.danceNoteArrayY[this.danceNoteFrame] + 38, 176, 1, 12, 10);
-                break;
-            case 22:
-                this.drawTexturedModalRect(j + GuiRedstoneJukebox.danceNoteArrayX[this.danceNoteFrame] + 136, k + GuiRedstoneJukebox.danceNoteArrayY[this.danceNoteFrame] + 38, 176, 1, 12, 10);
-                break;
-            case 23:
-                this.drawTexturedModalRect(j + GuiRedstoneJukebox.danceNoteArrayX[this.danceNoteFrame] + 154, k + GuiRedstoneJukebox.danceNoteArrayY[this.danceNoteFrame] + 38, 176, 1, 12, 10);
-                break;
-            }
-
-        }
-
-
         // -- loop indicator
         if (this.jukeboxInventory.isLoop) {
             // play loop
-            this.drawTexturedModalRect(j + 31, k + 54, 176, 21, 18, 21);
+            this.drawTexturedModalRect(j + 63, k + 81, 0, 216, 18, 9);
         }
         else {
             // play once
-            this.drawTexturedModalRect(j + 9, k + 61, 176, 12, 16, 9);
+            this.drawTexturedModalRect(j + 63, k + 81, 0, 206, 18, 9);
         }
 
 
@@ -315,20 +215,12 @@ public class GuiRedstoneJukebox extends GuiContainer {
         switch (this.jukeboxInventory.playMode) {
         case 0:
             // normal
-            GuiContainer.itemRenderer.renderItemIntoGUI(this.fontRenderer, this.mc.renderEngine, new ItemStack(Item.pickaxeWood), j + pStartX + spacer * 0, k + pStartY);
-            GuiContainer.itemRenderer.renderItemIntoGUI(this.fontRenderer, this.mc.renderEngine, new ItemStack(Item.pickaxeStone), j + pStartX + spacer * 1, k + pStartY);
-            GuiContainer.itemRenderer.renderItemIntoGUI(this.fontRenderer, this.mc.renderEngine, new ItemStack(Item.pickaxeIron), j + pStartX + spacer * 2, k + pStartY);
-            GuiContainer.itemRenderer.renderItemIntoGUI(this.fontRenderer, this.mc.renderEngine, new ItemStack(Item.pickaxeGold), j + pStartX + spacer * 3, k + pStartY);
-            GuiContainer.itemRenderer.renderItemIntoGUI(this.fontRenderer, this.mc.renderEngine, new ItemStack(Item.pickaxeDiamond), j + pStartX + spacer * 4, k + pStartY);
+            this.drawTexturedModalRect(j + 116, k + 81, 39, 217, 52, 10);
             break;
 
         case 1:
             // shuffle
-            GuiContainer.itemRenderer.renderItemIntoGUI(this.fontRenderer, this.mc.renderEngine, new ItemStack(Item.shovelIron), j + pStartX + spacer * 0, k + pStartY - 1);
-            GuiContainer.itemRenderer.renderItemIntoGUI(this.fontRenderer, this.mc.renderEngine, new ItemStack(Item.pickaxeDiamond), j + pStartX + spacer * 1, k + pStartY + 4);
-            GuiContainer.itemRenderer.renderItemIntoGUI(this.fontRenderer, this.mc.renderEngine, new ItemStack(Item.axeGold), j + pStartX + spacer * 2, k + pStartY - 3);
-            GuiContainer.itemRenderer.renderItemIntoGUI(this.fontRenderer, this.mc.renderEngine, new ItemStack(Item.pickaxeWood), j + pStartX + spacer * 3, k + pStartY + 1);
-            GuiContainer.itemRenderer.renderItemIntoGUI(this.fontRenderer, this.mc.renderEngine, new ItemStack(Item.pickaxeStone), j + pStartX + spacer * 4, k + pStartY - 2);
+            this.drawTexturedModalRect(j + 116, k + 81, 92, 217, 52, 10);
             break;
 
      }
