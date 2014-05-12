@@ -139,7 +139,7 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
 		
 		case checkRedstonePower:
 			checkRedstonePower();
-			return new Object[] {};
+			return new Object[] {isPlayingNow};
 		
 		case isActive:
 			return new Object[] { isActive() };
@@ -152,11 +152,11 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
 		
 		case startPlaying:
 			startPlaying();
-			return new Object[] {};
+			return new Object[] { true };
 		
 		case stopPlaying:
 			stopPlaying();
-			return new Object[] {};
+			return new Object[] { true };
 		
 		case playNextRecord:
 			playNextRecord();
@@ -838,7 +838,7 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
 
 	@Override
 	public String getComponentName() {
-		return "redstone_jukebox";
+		return "jukebox";
 	}
 
     @Callback
@@ -888,6 +888,9 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
     @Callback
     public Object[] setActive(Context context, Arguments args) throws Throwable {
     	final Object[] arguments = new Object[args.count()];
+		for (int i = 0; i < args.count(); ++i) {
+			arguments[i] = args.checkBoolean(i);
+		}
         return callMethod("setActive", arguments);
     }
 
