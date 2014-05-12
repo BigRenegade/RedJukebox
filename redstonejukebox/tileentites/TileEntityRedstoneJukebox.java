@@ -3,10 +3,12 @@ package redstonejukebox.tileentites;
 
 import java.util.logging.Level;
 
-import javax.naming.Context;
+
+
 
 import li.cil.oc.api.network.Arguments;
 import li.cil.oc.api.network.Callback;
+import li.cil.oc.api.network.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import paulscode.sound.SoundSystem;
 import net.minecraft.entity.item.EntityItem;
@@ -319,8 +321,6 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
                 return;
             }
             else {
-                // Debug
-                ModRedstoneJukebox.logDebugInfo("TileEntityRedstoneJukebox.updateEntity() - Active: " + this.isActive + " - Playing: " + this.isPlayingNow + " - Force Stop: " + this.forceStop);
 
                 // Resets the delay
                 this.delay = TileEntityRedstoneJukebox.maxDelay;
@@ -423,8 +423,6 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
 
 
     private void startPlaying() {
-        // Debug
-        ModRedstoneJukebox.logDebugInfo("TileEntityRedstoneJukebox.startPlaying() - at " + this.xCoord + ", " + this.yCoord + ", " + this.zCoord);
 
         // Sets the playlist order and play the next record
         this.setPlaylistOrder();
@@ -433,8 +431,6 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
 
 
     private void stopPlaying() {
-        // Debug
-        ModRedstoneJukebox.logDebugInfo("TileEntityRedstoneJukebox.stopPlaying() - at " + this.xCoord + ", " + this.yCoord + ", " + this.zCoord);
 
         // Stop playing records (Client will only stop if this is the source)
         PacketHelper.sendPlayRecordPacket("-", this.xCoord, this.yCoord, this.zCoord, true, 0, this.worldObj.provider.dimensionId);
@@ -487,7 +483,6 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
 
 
     private void markAsPlaying() {
-        ModRedstoneJukebox.logDebugInfo("TileEntityRedstoneJukebox.markAsPlaying() - at " + this.xCoord + ", " + this.yCoord + ", " + this.zCoord);
 
         this.isActive = true;
 
@@ -497,7 +492,6 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
 
 
     private void markAsStopped() {
-        ModRedstoneJukebox.logDebugInfo("TileEntityRedstoneJukebox.markAsStopped() - at " + this.xCoord + ", " + this.yCoord + ", " + this.zCoord);
 
         this.isActive = false;
         this.currentPlaySlot = -1;
@@ -521,13 +515,9 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
     private void checkIfStillPlaying() {
 
         if (!this.worldObj.isRemote) {
-            // Debug
-            ModRedstoneJukebox.logDebugInfo("TileEntityRedstoneJukebox.checkIfStillPlaying() - at " + this.xCoord + ", " + this.yCoord + ", " + this.zCoord);
 
 
             if (!PlayMusicHelper.AreClientsPlayingRecord()) {
-                // Debug
-                ModRedstoneJukebox.logDebugInfo("    No records are playing, playing next record.");
 
                 // No record is being played. Play the next one.
                 if (this.isActive) {
@@ -538,21 +528,15 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
             else {
                 // A record is being played somewhere, check if is this jukebox.
                 if (!this.getIsPlayingOnClients()) {
-                    // Debug
-                    ModRedstoneJukebox.logDebugInfo("    A record is being played elsewhere, the jukebox at " + this.xCoord + ", " + this.yCoord + ", " + this.zCoord + " will shut down.");
 
                     // This jukebox is not the source of music anymore
                     this.forceStop = true;
 
                 }
                 else {
-                    // Debug
-                    ModRedstoneJukebox.logDebugInfo("    The jukebox at " + this.xCoord + ", " + this.yCoord + ", " + this.zCoord + " is still playing.");
 
                     // This block is playing, check if there is a record on the current slot
                     if (this.getCurrentJukeboxPlaySlot() < 0) {
-                        // Debug
-                        ModRedstoneJukebox.logDebugInfo("    Current slot invalid, the jukebox at " + this.xCoord + ", " + this.yCoord + ", " + this.zCoord + " will shut down.");
 
                         // There is not slot defined, stop playing
                         this.forceStop = true;
@@ -560,8 +544,6 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
                     else {
                         ItemStack r = this.getStackInSlot(this.getCurrentJukeboxPlaySlot());
                         if (r == null || !(Item.itemsList[r.itemID] instanceof ItemRecord)) {
-                            // Debug
-                            ModRedstoneJukebox.logDebugInfo("    Current slot empty, playing the next record.");
 
                             this.playNextRecord();
                         }
@@ -580,8 +562,6 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
 
     // -- Set the playlist order. Also, resets the NEXTPLAYSLOT to the first position.
     private void setPlaylistOrder() {
-        // Debug
-        ModRedstoneJukebox.logDebugInfo("TileEntityRedstoneJukebox.setPlaylistOrder() - Shuffle: " + (this.playMode));
 
         int totalRecords = 0;
         boolean validRecord = false;
@@ -638,13 +618,6 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
         }
 
 
-        // Debug
-        for (int i = 0; i < this.playOrder.length; i++) {
-            debugOrder += "[" + this.playOrder[i] + "]";
-        }
-        ModRedstoneJukebox.logDebugInfo("    Playlist slot order: " + debugOrder + ", amount of actual records: " + totalRecords);
-
-
         // sets the position of the next record
         if (totalRecords > 0) {
             this.nextPlaySlot = 0;
@@ -657,8 +630,6 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
 
     // -- Play the next record.
     private void playNextRecord() {
-        // Debug
-        ModRedstoneJukebox.logDebugInfo("TileEntityRedstoneJukebox.playNextRecord() - Next slot: " + this.nextPlaySlot);
 
 
         int checkedSlot;
@@ -782,14 +753,15 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
 		return "redstone_jukebox";
 	}
 
-    @Callback
-    public Object[] isActive(Context context, Arguments args) {
-        return new Object[]{isActive};
+
+	@Callback
+	public Object[] isJukeboxActive() {
+		return new Object[]{ isActive() };
     }
 
     @Callback
     public Object[] setActive(Context context, Arguments args) {
         isActive = args.checkBoolean(0);
-        return new Object[]{isActive};
+        return new Object[]{ isActive };
     }
-}
+    }
