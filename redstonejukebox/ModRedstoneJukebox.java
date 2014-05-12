@@ -238,8 +238,8 @@ public class ModRedstoneJukebox {
         // Blocks and Items
         ModRedstoneJukebox.recordBlank = new ItemBlankRecord(ModRedstoneJukebox.blankRecordItemID, JukeboxTab.instance, ModRedstoneJukebox.blankRecordIcon).setTextureName("record_blank");
         ModRedstoneJukebox.customRecord = new ItemCustomRecord(ModRedstoneJukebox.customRecordItemID, "customRecord").setTextureName("record_custom");
-        ModRedstoneJukebox.redstoneJukebox = new BlockRedstoneJukebox(ModRedstoneJukebox.redstoneJukeboxIdleID, false).setHardness(2.0F).setResistance(10.0F).setUnlocalizedName("sidbenRedstoneJukebox").setStepSound(Block.soundStoneFootstep).setCreativeTab(JukeboxTab.instance).setTextureName("redstone_jukebox_off");
-        ModRedstoneJukebox.redstoneJukeboxActive = new BlockRedstoneJukebox(ModRedstoneJukebox.redstoneJukeboxActiveID, true).setHardness(2.0F).setResistance(10.0F).setUnlocalizedName("sidbenRedstoneJukebox").setStepSound(Block.soundStoneFootstep).setLightValue(0.75F).setTextureName("redstone_jukebox_on");
+        ModRedstoneJukebox.redstoneJukebox = new BlockRedstoneJukebox(ModRedstoneJukebox.redstoneJukeboxIdleID, false).setHardness(2.0F).setResistance(10.0F).setUnlocalizedName("RedstoneJukebox").setStepSound(Block.soundStoneFootstep).setCreativeTab(JukeboxTab.instance).setTextureName("redstone_jukebox_off");
+        ModRedstoneJukebox.redstoneJukeboxActive = new BlockRedstoneJukebox(ModRedstoneJukebox.redstoneJukeboxActiveID, true).setHardness(2.0F).setResistance(10.0F).setUnlocalizedName("RedstoneJukebox").setStepSound(Block.soundStoneFootstep).setLightValue(0.75F).setTextureName("redstone_jukebox_on");
 
 
         // Blocks

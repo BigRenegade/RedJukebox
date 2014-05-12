@@ -576,7 +576,7 @@ public class CustomRecordHelper {
          * Error in class 'SourceLWJGL OpenAL'
          * Decoder null in method 'play'
          */
-        return "sidbenredstonejukebox." + songID + ".ogg";
+        return "redstonejukebox." + songID + ".ogg";
     }
 
 }
