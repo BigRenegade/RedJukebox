@@ -14,7 +14,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class PlayerEventHandler {
 
 
-    @SideOnly(Side.CLIENT)
+//    @SideOnly(Side.CLIENT)
     @ForgeSubscribe
     public void onEntityInteractEvent(EntityInteractEvent event) {
         /*

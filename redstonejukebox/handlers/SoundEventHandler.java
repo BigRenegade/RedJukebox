@@ -16,7 +16,7 @@ public class SoundEventHandler {
 
 
     // -- Is called right before any streaming sound is played.
-    @SideOnly(Side.CLIENT)
+//    @SideOnly(Side.CLIENT)
     @ForgeSubscribe
     public void onPlayStreamingSourceEvent(PlayStreamingSourceEvent event) {
 

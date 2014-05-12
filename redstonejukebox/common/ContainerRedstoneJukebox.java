@@ -18,9 +18,8 @@ public class ContainerRedstoneJukebox extends Container {
 
 
     public ContainerRedstoneJukebox(InventoryPlayer inventoryPlayer, TileEntityRedstoneJukebox tileEntity) {
-        this.teJukebox = tileEntity;
-
-
+        
+    	this.teJukebox = tileEntity;
 
         // --- Slots of the Jukebox
 
@@ -30,18 +29,20 @@ public class ContainerRedstoneJukebox extends Container {
             }
         }
         
-        
+        bindPlayerInventory(inventoryPlayer);
+    }
+    
 
-        // -- Player inventory
+    
+    protected void bindPlayerInventory(InventoryPlayer inventoryPlayer) {
         for (int i = 0; i < 3; i++) {
-            for (int k = 0; k < 9; k++) {
-                this.addSlotToContainer(new Slot(inventoryPlayer, k + i * 9 + 9, 8 + k * 18, 96 + i * 18));
-            }
+                for (int j = 0; j < 9; j++) {
+                        addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9, 8 + j * 18, 96 + i * 18));
+                }
         }
 
-        // -- Player hotbar
-        for (int j = 0; j < 9; j++) {
-            this.addSlotToContainer(new Slot(inventoryPlayer, j, 8 + j * 18, 154));
+        for (int i = 0; i < 9; i++) {
+                addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 154));
         }
 
     }
@@ -61,9 +62,9 @@ public class ContainerRedstoneJukebox extends Container {
     public ItemStack transferStackInSlot(EntityPlayer player, int slotnumber) {
         /*
          * slotnumber:
-         * 0-23 = jukebox
-         * 24-50 = player inventory
-         * 51-60 = player hotbar
+         * 0-44 = jukebox
+         * 45-71 = player inventory
+         * 71-80 = player hotbar
          * 
          * 
          * mergeItemStack(i, a, b, r)
@@ -88,12 +89,12 @@ public class ContainerRedstoneJukebox extends Container {
 
             if (slotnumber < 45) {
                 // send item from the jukebox to the player
-                if (!this.mergeItemStack(myStack, 0, 44, true)) return null;
+                if (!this.mergeItemStack(myStack, 0, 45, true)) return null;
             }
             else {
                 // send a record to the jukebox
                 if (SlotRedstoneJukeboxRecord.isRecord(myStack)) {
-                    if (!this.mergeItemStack(myStack, 0, 9, false)) return null;
+                    if (!this.mergeItemStack(myStack, 0, 35, false)) return null;
                 }
                 else
                     return null;
@@ -113,9 +114,6 @@ public class ContainerRedstoneJukebox extends Container {
         return returnStack;
 
     }
-
-
-
 
     public TileEntityRedstoneJukebox GetTileEntity() {
         return this.teJukebox;

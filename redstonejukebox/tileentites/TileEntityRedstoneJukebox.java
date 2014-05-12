@@ -3,10 +3,16 @@ package redstonejukebox.tileentites;
 
 import java.util.logging.Level;
 
+import javax.naming.Context;
+
+import li.cil.oc.api.network.Arguments;
+import li.cil.oc.api.network.Callback;
+import li.cil.oc.api.network.SimpleComponent;
 import paulscode.sound.SoundSystem;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
@@ -24,8 +30,7 @@ import redstonejukebox.items.ItemCustomRecord;
 import redstonejukebox.network.PacketHelper;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
-
-
+import cpw.mods.fml.common.Optional;
 
 public class TileEntityRedstoneJukebox extends TileEntity implements IInventory {
 
@@ -108,23 +113,11 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory 
      */
     @Override
     public ItemStack decrStackSize(int slot, int amount) {
-        if (this.jukeboxPlaylist[slot] != null) {
-            if (this.jukeboxPlaylist[slot].stackSize <= amount) {
-                ItemStack itemstack = this.jukeboxPlaylist[slot];
-                this.jukeboxPlaylist[slot] = null;
-                return itemstack;
-            }
-
-            ItemStack itemstack1 = this.jukeboxPlaylist[slot].splitStack(amount);
-
-            if (this.jukeboxPlaylist[slot].stackSize == 0) {
-                this.jukeboxPlaylist[slot] = null;
-            }
-
-            return itemstack1;
-        }
-        else
-            return null;
+		if (this.jukeboxPlaylist[slot] == null)
+			return null;
+		if (this.jukeboxPlaylist[slot].stackSize == 0)
+			return null;
+		return this.jukeboxPlaylist[slot].splitStack(Math.min(amount, this.jukeboxPlaylist[slot].stackSize));
     }
 
 
@@ -154,15 +147,6 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory 
         if (stack != null && stack.stackSize > this.getInventoryStackLimit()) {
             stack.stackSize = this.getInventoryStackLimit();
         }
-    }
-
-
-    /**
-     * Returns the name of the inventory.
-     */
-    @Override
-    public String getInvName() {
-        return "container.redstoneJukebox";
     }
 
 
@@ -400,13 +384,6 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory 
 
             }
         }
-
-
-        // Debug
-        ModRedstoneJukebox.logDebugInfo("TileEntityRedstoneJukebox.checkRedstonePower()");
-        ModRedstoneJukebox.logDebugInfo("    Force stop:     " + this.forceStop);
-        ModRedstoneJukebox.logDebugInfo("    Has energy:     " + hasEnergy);
-        ModRedstoneJukebox.logDebugInfo("    Can use energy: " + canUseEnergy);
 
 
         this.isActive = hasEnergy && canUseEnergy;
@@ -696,8 +673,6 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory 
             if (checkedSlot >= this.playOrder.length) {
                 checkedSlot = -1;
 
-                // Debug
-                ModRedstoneJukebox.logDebugInfo("    Playlist reached the end (loop = " + this.isLoop + ").");
 
                 // check for loop
                 if (this.isLoop) {
@@ -710,12 +685,8 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory 
                     }
                     ++this.nextPlaySlot;
 
-                    // Debug
-                    ModRedstoneJukebox.logDebugInfo("        The jukebox at " + this.xCoord + ", " + this.yCoord + ", " + this.zCoord + " will restart.");
                 }
                 else {
-                    // Debug
-                    ModRedstoneJukebox.logDebugInfo("        The jukebox at " + this.xCoord + ", " + this.yCoord + ", " + this.zCoord + " will shut down.");
 
                     this.forceStop = true;
                     break;
@@ -752,11 +723,6 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory 
                     }
 
 
-                    // Debug
-                    ModRedstoneJukebox.logDebugInfo("    Playing record in slot index " + this.playOrder[checkedSlot] + ", record ID: [" + recordID + "]");
-
-
-
                     // -- Try to play the record on the selected slot
                     PacketHelper.sendPlayRecordPacket(recordID, this.xCoord, this.yCoord, this.zCoord, true, extraVolume, this.worldObj.provider.dimensionId);
 
@@ -773,17 +739,8 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory 
                     break;
 
                 }
-                else {
-                    // Debug
-                    ModRedstoneJukebox.logDebugInfo("    No record found in slot index " + this.playOrder[checkedSlot] + ", moving next.");
-                }
 
             }
-            else {
-                // Debug
-                ModRedstoneJukebox.logDebugInfo("    Invalid slot index " + this.playOrder[checkedSlot] + ", moving next.");
-            }
-
 
         }
 
@@ -793,9 +750,6 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory 
         this.resync();
 
     }
-
-
-
 
     /**
      * If this returns false, the inventory name will be used as an unlocalized name, and translated into the player's
@@ -815,6 +769,10 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory 
         return Item.itemsList[itemstack.itemID] instanceof ItemRecord;
     }
 
-
+	@Override
+	public String getInvName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
