@@ -1,7 +1,13 @@
 package redstonejukebox.tileentites;
 
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
+
+
+
+
 
 
 
@@ -89,6 +95,88 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
     private boolean		forceStop				= false;                             // -- Forces the jukebox stop.
 
 
+
+    
+	public enum ComputerMethod {
+		checkRedstonePower,				// No arguments
+		isActive,						// No arguments
+		getCurrentPlaySlot,				// No arguments
+		getCurrentJukeboxPlaySlot, 		// No arguments
+		startPlaying,  					// No arguments
+		stopPlaying, 					// No arguments
+		playNextRecord,					// No arguments
+		setActive,						// Required Arg: fuel rod index
+	}
+
+	public static final int numMethods = ComputerMethod.values().length;
+
+	public static final String[] methodNames = new String[numMethods];
+	static {
+		ComputerMethod[] methods = ComputerMethod.values();
+		for(ComputerMethod method : methods) {
+			methodNames[method.ordinal()] = method.toString();
+		}
+	}
+
+	public static final Map<String, Integer> methodIds = new HashMap<String, Integer>();
+	static {
+		for (int i = 0; i < numMethods; ++i) {
+			methodIds.put(methodNames[i], i);
+		}
+	}
+
+	public Object[] callMethod(String method, Object[] arguments) throws Exception {
+	/*	if(method < 0 || method >= numMethods) {
+			throw new IllegalArgumentException("Invalid method number");
+		}
+		*/
+
+		ComputerMethod computerMethod = ComputerMethod.valueOf(method);
+		int index, newLevel;
+		boolean newState;
+
+		switch(computerMethod) {
+		
+		case checkRedstonePower:
+			checkRedstonePower();
+			return new Object[] {};
+		
+		case isActive:
+			return new Object[] { isActive() };
+		
+		case getCurrentPlaySlot:
+			return new Object[] { getCurrentPlaySlot() };
+		
+		case getCurrentJukeboxPlaySlot:
+			return new Object[] { getCurrentJukeboxPlaySlot() };
+		
+		case startPlaying:
+			startPlaying();
+			return new Object[] {};
+		
+		case stopPlaying:
+			stopPlaying();
+			return new Object[] {};
+		
+		case playNextRecord:
+			playNextRecord();
+			return new Object[] {};
+		
+		case setActive:
+			if(arguments.length < 1) {
+				throw new IllegalArgumentException("Insufficient number of arguments, expected 1");
+			}
+			if(!(arguments[0] instanceof Boolean)) {
+				throw new IllegalArgumentException("Invalid argument 0, expected Boolean");
+			}
+			newState = (Boolean)arguments[0];
+			isActive = newState;
+			return null;
+		default: throw new Exception("Method unimplemented - yell at Beef");
+		}
+	}
+
+    
     /*--------------------------------------------------------------------
     	Inventory
     --------------------------------------------------------------------*/
@@ -421,7 +509,7 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
 
 
 
-
+    
     private void startPlaying() {
 
         // Sets the playlist order and play the next record
@@ -753,15 +841,54 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
 		return "redstone_jukebox";
 	}
 
-
-	@Callback
-	public Object[] isJukeboxActive() {
-		return new Object[]{ isActive() };
+    @Callback
+    public Object[] checkRedstonePower(Context context, Arguments args) throws Throwable {
+    	final Object[] arguments = new Object[args.count()];
+        return callMethod("checkRedstonePower", arguments);
     }
 
     @Callback
-    public Object[] setActive(Context context, Arguments args) {
-        isActive = args.checkBoolean(0);
-        return new Object[]{ isActive };
+    public Object[] isActive(Context context, Arguments args) throws Throwable {
+    	final Object[] arguments = new Object[args.count()];
+        return callMethod("isActive", arguments);
     }
+
+
+    @Callback
+    public Object[] getCurrentPlaySlot(Context context, Arguments args) throws Throwable {
+    	final Object[] arguments = new Object[args.count()];
+        return callMethod("getCurrentPlaySlot", arguments);
     }
+
+    @Callback
+    public Object[] getCurrentJukeboxPlaySlot(Context context, Arguments args) throws Throwable {
+    	final Object[] arguments = new Object[args.count()];
+        return callMethod("getCurrentJukeboxPlaySlot", arguments);
+    }
+	
+    @Callback
+    public Object[] startPlaying(Context context, Arguments args) throws Throwable {
+    	final Object[] arguments = new Object[args.count()];
+        return callMethod("startPlaying", arguments);
+    }
+	
+	
+    @Callback
+    public Object[] stopPlaying(Context context, Arguments args) throws Throwable {
+    	final Object[] arguments = new Object[args.count()];
+        return callMethod("stopPlaying", arguments);
+    }
+	 		
+    @Callback
+    public Object[] playNextRecord(Context context, Arguments args) throws Throwable {
+    	final Object[] arguments = new Object[args.count()];
+        return callMethod("playNextRecord", arguments);
+    }
+						
+    @Callback
+    public Object[] setActive(Context context, Arguments args) throws Throwable {
+    	final Object[] arguments = new Object[args.count()];
+        return callMethod("setActive", arguments);
+    }
+
+}
