@@ -31,8 +31,10 @@ import redstonejukebox.network.PacketHelper;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.common.Optional;
+import dan200.computer.api.IComputerAccess;
+import dan200.computer.api.ILuaContext;
 
-public class TileEntityRedstoneJukebox extends TileEntity implements IInventory {
+public class TileEntityRedstoneJukebox extends TileEntity implements IInventory, SimpleComponent {
 
 
     /*--------------------------------------------------------------------
@@ -771,8 +773,23 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory 
 
 	@Override
 	public String getInvName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+
+	@Override
+	public String getComponentName() {
+		return "redstone_jukebox";
+	}
+
+    @Callback
+    public Object[] isActive(Context context, Arguments args) {
+        return new Object[]{isActive};
+    }
+
+    @Callback
+    public Object[] setActive(Context context, Arguments args) {
+        isActive = args.checkBoolean(0);
+        return new Object[]{isActive};
+    }
 }
