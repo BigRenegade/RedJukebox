@@ -102,8 +102,9 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
 		startPlaying,  					// No arguments
 		stopPlaying, 					// No arguments
 		playNextRecord,					// No arguments
-		setActive,						// Required Arg: fuel rod index
-		getPlayList
+		setActive,						// Required Arg: true/fdlase
+		getPlayList,
+		playRecord						// Required Arg: jukebox slot index
 		
 	}
 
@@ -173,9 +174,19 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
 			return new Object[] {isActive()};
 
 		case getPlayList:
-			
 			return new Object[] { getSongPlayList() };
 		
+		case playRecord:
+			if(arguments.length < 1) {
+				throw new IllegalArgumentException("Insufficient number of arguments, expected 1");
+			}
+			if(!(arguments[0] instanceof Integer)) {
+				throw new IllegalArgumentException("Invalid argument 0, expected Integer");
+			}
+			index = (Integer)arguments[0];
+			playRecord(index); 
+			return new Object[] {index};
+
 		default: throw new Exception("Method unimplemented - yell at Kenny");
 		}
 	}
@@ -533,6 +544,7 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
     private String[] getSongPlayList() {
     	Integer nxt = 0;
     	Boolean validRecord;
+    	songPlayList = new String[45];
     	
         // adds the records with the regular order
         for (int i = 0; i < this.playOrder.length; i++) {
@@ -552,8 +564,6 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
                     }
                 }
                 if (validRecord) {
-                	System.out.println("ERROR!!!  Error getting custom record song ID for [" + songPlayList.length + "]");
-                	System.out.println("ERROR!!!  Error getting custom record song ID for [" + CustomRecordHelper.getSongTitle(((ItemCustomRecord) Item.itemsList[s.itemID]).getSongID(s).trim()) + "]");
                 	songPlayList[nxt] = CustomRecordHelper.getSongTitle(((ItemCustomRecord) Item.itemsList[s.itemID]).getSongID(s).trim());
                 	nxt++;
                 }
@@ -566,6 +576,64 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
     }
 
 
+    // -- Play selected record.
+    private void playRecord(Integer sel) {
+
+        int extraVolume = BlockRedstoneJukebox.getAmplifierPower(this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+
+        sel += 9;
+        
+        // check only if it's a valid index
+        if (this.playOrder[sel] != -1) {
+
+        	// check the slot for a record. If don't find, advance on the play list
+            ItemStack s = this.getStackInSlot(this.playOrder[sel]);
+            if (s != null && Item.itemsList[s.itemID] instanceof ItemRecord) {
+
+                /*
+                 * gets the song ID.
+                 * 
+                 * Vanilla uses the record name, since every record have a unique ID.
+                 * My mod uses just one ID, so I need to find that.
+                 */
+                String recordID = "";
+                if (Item.itemsList[s.itemID] instanceof ItemCustomRecord) {
+                    try {
+                        recordID = ((ItemCustomRecord) Item.itemsList[s.itemID]).getSongID(s);
+                    }
+                    catch (java.lang.ClassCastException ex) {
+                        // error casting record. Should not happen for real.
+                        ModRedstoneJukebox.logDebug("Error getting custom record song ID for [" + s.toString() + "]", Level.WARNING);
+                    }
+                }
+                else {
+                    // Vanilla records
+                    recordID = ((ItemRecord) Item.itemsList[s.itemID]).recordName;
+                }
+
+                System.out.println("ERROR!!!     Playing record " + recordID);
+                // -- Try to play the record on the selected slot
+                PacketHelper.sendPlayRecordPacket(recordID, this.xCoord, this.yCoord, this.zCoord, true, extraVolume, this.worldObj.provider.dimensionId);
+
+                this.currentPlaySlot = sel;
+                this.currentJukeboxPlaySlot = this.playOrder[sel];
+                this.isPlayingNow = true;
+
+                // This updates comparators
+                this.onInventoryChanged();
+
+                // Starts the server tick handler
+                PlayMusicHelper.StartTrackingResponses(this.xCoord, this.yCoord, this.zCoord, this.worldObj.provider.dimensionId);
+
+            }
+
+        }
+
+        // (?)
+        // This will force a getDescriptionPacket / onDataPacket combo to resync client and server
+        this.resync();
+
+    }
    
     
     
@@ -948,4 +1016,12 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
         return callMethod("getPlayList", arguments);
     }
 
+    @Callback
+    public Object[] playRecord(Context context, Arguments args) throws Throwable {
+    	final Object[] arguments = new Object[args.count()];
+		for (int i = 0; i < args.count(); ++i) {
+			arguments[i] = args.checkInteger(i);
+		}
+        return callMethod("playRecord", arguments);
+    }
 }
