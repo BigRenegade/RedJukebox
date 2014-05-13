@@ -1,16 +1,10 @@
 package redstonejukebox.tileentites;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
-
-
-
-
-
-
-
 
 import li.cil.oc.api.network.Arguments;
 import li.cil.oc.api.network.Callback;
@@ -33,9 +27,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import redstonejukebox.ModRedstoneJukebox;
 import redstonejukebox.blocks.BlockRedstoneJukebox;
+import redstonejukebox.helper.CustomRecordObject;
 import redstonejukebox.helper.PlayMusicHelper;
 import redstonejukebox.items.ItemCustomRecord;
 import redstonejukebox.network.PacketHelper;
+import redstonejukebox.helper.CustomRecordHelper;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.common.Optional;
@@ -95,6 +91,7 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
     private boolean		forceStop				= false;                             // -- Forces the jukebox stop.
 
 
+    public String[] songPlayList;
 
     
 	public enum ComputerMethod {
@@ -106,6 +103,8 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
 		stopPlaying, 					// No arguments
 		playNextRecord,					// No arguments
 		setActive,						// Required Arg: fuel rod index
+		getPlayList
+		
 	}
 
 	public static final int numMethods = ComputerMethod.values().length;
@@ -171,8 +170,13 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
 			}
 			newState = (Boolean)arguments[0];
 			isActive = newState;
-			return null;
-		default: throw new Exception("Method unimplemented - yell at Beef");
+			return new Object[] {isActive()};
+
+		case getPlayList:
+			
+			return new Object[] { getSongPlayList() };
+		
+		default: throw new Exception("Method unimplemented - yell at Kenny");
 		}
 	}
 
@@ -525,8 +529,47 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
     }
 
 
+    // -- get the play list Names
+    private String[] getSongPlayList() {
+    	Integer nxt = 1;
+    	Boolean validRecord;
+    	
+        // adds the records with the regular order
+        for (int i = 0; i < this.playOrder.length; i++) {
+
+            this.playOrder[i] = i;
 
 
+            // check every slot to search for records.
+            ItemStack s = this.getStackInSlot(i);
+            if (s != null && Item.itemsList[s.itemID] instanceof ItemRecord) {
+                validRecord = true;
+
+                // Only counts valid records, custom records with no song are ignored
+                if (Item.itemsList[s.itemID] instanceof ItemCustomRecord) {
+                    if (((ItemCustomRecord) Item.itemsList[s.itemID]).getSongID(s).equals("")) {
+                        validRecord = false;
+                    }
+                }
+                if (validRecord) {
+                	System.out.println("ERROR!!!  Error getting custom record song ID for [" + CustomRecordHelper.getSongTitle(((ItemCustomRecord) Item.itemsList[s.itemID]).getSongID(s).trim()) + "]");
+                	songPlayList[nxt] = CustomRecordHelper.getSongTitle(((ItemCustomRecord) Item.itemsList[s.itemID]).getSongID(s).trim());
+                	nxt++;
+                }
+            }
+
+        }
+        return songPlayList;
+
+    }
+
+
+   
+    
+    
+    
+    
+    
     // eject all records to the world
     public void ejectAllAndStopPlaying(World world, int x, int y, int z) {
         if (this.isActive) {
@@ -648,6 +691,9 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
 
 
 
+    
+    
+    
     // -- Set the playlist order. Also, resets the NEXTPLAYSLOT to the first position.
     private void setPlaylistOrder() {
 
@@ -892,6 +938,12 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
 			arguments[i] = args.checkBoolean(i);
 		}
         return callMethod("setActive", arguments);
+    }
+
+    @Callback
+    public Object[] getPlayList(Context context, Arguments args) throws Throwable {
+    	final Object[] arguments = new Object[args.count()];
+        return callMethod("getPlayList", arguments);
     }
 
 }

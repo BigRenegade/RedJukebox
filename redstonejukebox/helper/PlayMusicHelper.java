@@ -56,8 +56,6 @@ public class PlayMusicHelper {
      * before sending the question.
      */
     public static void ResetResponseList() {
-        // Debug
-        ModRedstoneJukebox.logDebugInfo("PlayMusicHelper.ResetResponseList()");
 
         PlayMusicHelper.playingRespCoords.clear();
     }
@@ -79,8 +77,6 @@ public class PlayMusicHelper {
      * @return TRUE if the player was not in the list, FALSE if it was there already.
      */
     public static boolean AddResponse(String playerName, int x, int y, int z, int dimensionId) {
-        // Debug
-        ModRedstoneJukebox.logDebugInfo("PlayMusicHelper.AddResponse(" + playerName + ", " + x + ", " + y + ", " + z + ", " + dimensionId + ")");
 
         if (!PlayMusicHelper.playingRespCoords.containsKey(playerName)) {
             PlayMusicHelper.playingRespCoords.put(playerName, new MusicCoords(x, y, z, dimensionId));
@@ -95,8 +91,6 @@ public class PlayMusicHelper {
      * based on the responses received from players.
      */
     public static void ProcessResponseList(boolean stopIfNoResponse) {
-        // Debug
-        ModRedstoneJukebox.logDebugInfo("PlayMusicHelper.ProcessResponseList() - Responses #: " + PlayMusicHelper.playingRespCoords.size() + ", stop if empty: " + stopIfNoResponse);
 
         // If no responses where received, no players are playing records.
         if (PlayMusicHelper.playingRespCoords.size() <= 0) {
@@ -110,8 +104,6 @@ public class PlayMusicHelper {
             for (String key : PlayMusicHelper.playingRespCoords.keySet()) {
                 PlayMusicHelper.currentSoundSourceServer.set(PlayMusicHelper.playingRespCoords.get(key));
 
-                // Debug
-                ModRedstoneJukebox.logDebugInfo("    Server thinks music is at " + PlayMusicHelper.currentSoundSourceServer.x + ", " + PlayMusicHelper.currentSoundSourceServer.y + ", " + PlayMusicHelper.currentSoundSourceServer.z + " based on the response from [" + key + "]");
 
                 break;
             }
@@ -150,8 +142,6 @@ public class PlayMusicHelper {
      * server don't have to wait client responses to inform Redstone Jukeboxes.
      */
     public static void StartTrackingResponses(int x, int y, int z, int dimensionId) {
-        // Debug
-        ModRedstoneJukebox.logDebugInfo("PlayMusicHelper.StartTrackingResponses(" + x + ", " + y + ", " + z + ", " + dimensionId + ")");
 
         MusicTickHandler.refreshTichHanlder();
 
@@ -167,8 +157,6 @@ public class PlayMusicHelper {
      * This must be called internally, when the server gets no responses from clients.
      */
     private static void StopTrackingResponses() {
-        // Debug
-        ModRedstoneJukebox.logDebugInfo("PlayMusicHelper.StopTrackingResponses()");
 
         PlayMusicHelper.isServerPlaying = false;
         PlayMusicHelper.musicCheckActive = false;
@@ -185,8 +173,6 @@ public class PlayMusicHelper {
   //  @SideOnly(Side.CLIENT)
     public static boolean playAnyRecordAt(String songID, int x, int y, int z, boolean showName, float volumeExtender) {
 
-        // Debug
-        ModRedstoneJukebox.logDebugInfo("PlayMusicHelper.playAnyRecordAt(" + songID + ", " + x + ", " + y + ", " + z + ", " + showName + ", " + volumeExtender + ")");
 
 
         /*
@@ -198,8 +184,6 @@ public class PlayMusicHelper {
          */
         if (songID == null) {
             if (PlayMusicHelper.lastSoundSourceClient.isEqual(x, y, z)) {
-                // Debug
-                ModRedstoneJukebox.logDebugInfo("    Stopping all sounds.");
 
                 // Stops playing sounds
                 Minecraft auxMC = ModLoader.getMinecraftInstance();
@@ -209,11 +193,6 @@ public class PlayMusicHelper {
                 if (auxMC.sndManager.sndSystem.playing("BgMusic")) {
                     auxMC.sndManager.sndSystem.stop("BgMusic");
                 }
-
-            }
-            else {
-                // Debug
-                ModRedstoneJukebox.logDebugInfo("    No need to stop sounds.");
 
             }
 
@@ -239,8 +218,6 @@ public class PlayMusicHelper {
      */
  //   @SideOnly(Side.CLIENT)
     private static boolean playCustomRecordAt(String songID, int x, int y, int z, boolean showName, float volumeExtender) {
-        // Debug
-        ModRedstoneJukebox.logDebugInfo("PlayMusicHelper.playCustomRecordAt(" + songID + ", " + x + ", " + y + ", " + z + ", " + showName + ", " + volumeExtender + ")");
 
 
         if (songID != "" && FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
@@ -258,10 +235,6 @@ public class PlayMusicHelper {
             if (auxRecord != null) {
                 Minecraft auxMC = ModLoader.getMinecraftInstance();
 
-                // Debug
-                ModRedstoneJukebox.logDebugInfo("    Song Name:       " + auxRecord.songTitle);
-                ModRedstoneJukebox.logDebugInfo("    Settings volume: " + auxMC.gameSettings.musicVolume);
-                ModRedstoneJukebox.logDebugInfo("    Playing:         [" + CustomRecordHelper.getRecordIdentifier(auxRecord.songID) + "]@[" + auxRecord.songURL + "]");
 
                 // Show record's name
                 if (auxRecord.songTitle != "" && showName) {
@@ -286,10 +259,6 @@ public class PlayMusicHelper {
                     return true;
                 }
             }
-            else {
-                // Debug
-                ModRedstoneJukebox.logDebug("    Custom record not found. ID: [" + songID + "]", Level.SEVERE);
-            }
 
         }
 
@@ -302,8 +271,6 @@ public class PlayMusicHelper {
      */
  //   @SideOnly(Side.CLIENT)
     private static boolean playVanillaRecordAt(String songID, int x, int y, int z, boolean showName, float volumeExtender) {
-        // Debug
-        ModRedstoneJukebox.logDebugInfo("PlayMusicHelper.playVanillaRecordAt(" + songID + ", " + x + ", " + y + ", " + z + ", " + showName + ", " + volumeExtender + ")");
 
 
         if (songID != "" && FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
@@ -323,9 +290,6 @@ public class PlayMusicHelper {
                 SoundPoolEntry soundpoolentry = auxMC.sndManager.soundPoolStreaming.getRandomSoundFromSoundPool(songID);
                 soundpoolentry = SoundEvent.getResult(new PlayStreamingEvent(auxMC.sndManager, soundpoolentry, songID, x, y, z));
 
-                // Debug
-                ModRedstoneJukebox.logDebugInfo("    Song Name: " + auxRecord.getRecordTitle());
-                ModRedstoneJukebox.logDebugInfo("    Playing:   [" + soundpoolentry.getSoundName() + "]@[" + soundpoolentry.getSoundUrl() + "]");
 
                 // Show record's name
                 if (showName) {
@@ -350,10 +314,6 @@ public class PlayMusicHelper {
                     return true;
                 }
             }
-            else {
-                // Debug
-                ModRedstoneJukebox.logDebug("    Vanilla record not found. ID: [" + songID + "]", Level.SEVERE);
-            }
 
         }
 
@@ -363,8 +323,6 @@ public class PlayMusicHelper {
 
 //    @SideOnly(Side.CLIENT)
     public static boolean playBgMusic(String songName, boolean isRecord, boolean showName) {
-        // Debug
-        ModRedstoneJukebox.logDebugInfo("PlayMusicHelper.playBgMusic(" + songName + ", " + isRecord + ", " + showName + ")");
 
 
         if (songName != "" && FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
@@ -416,9 +374,6 @@ public class PlayMusicHelper {
 
 
             if (seMusic != null) {
-                // Debug
-                ModRedstoneJukebox.logDebugInfo("    Song Name: " + songTitle);
-                ModRedstoneJukebox.logDebugInfo("    Playing:   [" + seMusic.getSoundName() + "]@[" + seMusic.getSoundUrl() + "]");
 
                 // Show the song title
                 if (showName && songTitle != "") {
@@ -434,9 +389,6 @@ public class PlayMusicHelper {
                 return true;
             }
             else if (seRecord != null) {
-                // Debug
-                ModRedstoneJukebox.logDebugInfo("    Song Name: " + songTitle);
-                ModRedstoneJukebox.logDebugInfo("    Playing:   [" + CustomRecordHelper.getRecordIdentifier(seRecord.songID) + "]@[" + seRecord.songURL + "]");
 
                 // Show the song title
                 if (showName) {
@@ -449,14 +401,6 @@ public class PlayMusicHelper {
                 auxMC.sndManager.sndSystem.play("BgMusic");
 
                 return true;
-            }
-            else {
-                if (!isRecord) {
-                    ModRedstoneJukebox.logDebug("    BgMusic not found on the soundpool. Name: [" + songName + "]", Level.SEVERE);
-                }
-                else {
-                    ModRedstoneJukebox.logDebug("    Record not found. Name: [" + songName + "]", Level.SEVERE);
-                }
             }
 
         }

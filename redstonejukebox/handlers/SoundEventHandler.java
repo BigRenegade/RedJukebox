@@ -22,7 +22,6 @@ public class SoundEventHandler {
 
         // Updates the sound source on the client
         // OBS: dimension doesn't matter, the player will complete when sending the packet
-        ModRedstoneJukebox.logDebugInfo("Updating sound source to " + event.x + ", " + event.y + ", " + event.z + ".");
         PlayMusicHelper.lastSoundSourceClient = new MusicCoords((int) event.x, (int) event.y, (int) event.z, 0);
 
     }

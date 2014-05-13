@@ -102,8 +102,6 @@ public class PacketHelper {
      * OBS: The songID can be -, that would make sounds stop.
      */
     public static void sendPlayRecordPacket(String songID, int x, int y, int z, boolean showName, float volumeExtender, int dimensionId) {
-        // Debug
-        ModRedstoneJukebox.logDebugPacket("PacketHelper.sendPlayRecordPacket(" + songID + ", " + x + ", " + y + ", " + z + ", " + showName + ", " + volumeExtender + ", " + dimensionId + ")");
 
 
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
@@ -140,8 +138,6 @@ public class PacketHelper {
      * Sends a "PlayRecord" packet to all players (in all dimensions)
      */
     public static void sendPlayRecordPacket(String songID, boolean showName) {
-        // Debug
-        ModRedstoneJukebox.logDebugPacket("PacketHelper.sendPlayRecordPacket(" + songID + ", " + showName + ")");
 
 
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
@@ -169,8 +165,6 @@ public class PacketHelper {
      * Sends a "PlayRecord" packet to the defined player(s)
      */
     public static void sendPlayRecordPacketTo(EntityPlayerMP player, String songID, int x, int y, int z, boolean showName, float volumeExtender) {
-        // Debug
-        ModRedstoneJukebox.logDebugPacket("PacketHelper.sendPlayRecordPacketTo(player, " + songID + ", " + x + ", " + y + ", " + z + ", " + showName + ", " + volumeExtender + ")");
 
 
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
@@ -202,8 +196,6 @@ public class PacketHelper {
      * Sends a "PlayBgMusic" packet to all players (in all dimensions)
      */
     public static void sendPlayBgMusicPacket(String songName) {
-        // Debug
-        ModRedstoneJukebox.logDebugPacket("PacketHelper.sendPlayBgMusicPacket(" + songName + ")");
 
 
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
@@ -238,8 +230,6 @@ public class PacketHelper {
             Random r = new Random();
             PacketHelper.isPlayingQuestionCode = (byte) r.nextInt(250);
 
-            // Debug
-            ModRedstoneJukebox.logDebugPacket("PacketHelper.sendIsPlayingQuestionPacket() - Question Id: " + PacketHelper.isPlayingQuestionCode);
 
 
             // Custom Packet
@@ -266,8 +256,6 @@ public class PacketHelper {
      * Send a answer to the server informing if a player is playing any record (streaming).
      */
     public static void sendIsPlayingAnswerPacket(int questionId, String playerName, boolean isPlaying, int x, int y, int z, int dimensionId) {
-        // Debug
-        ModRedstoneJukebox.logDebugPacket("PacketHelper.sendIsPlayingAnswerPacket(" + questionId + ", " + playerName + ", " + isPlaying + ", " + x + ", " + y + ", " + z + ", " + dimensionId + ")");
 
 
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {

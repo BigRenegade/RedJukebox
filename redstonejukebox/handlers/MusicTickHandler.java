@@ -74,7 +74,6 @@ public class MusicTickHandler implements IScheduledTickHandler {
                     // Sends question to all players if they are playing something.
                     // (only if still active)
                     if (PlayMusicHelper.musicCheckActive) {
-                        ModRedstoneJukebox.logDebugInfo("Sending playing music question to all players.");
                         PacketHelper.sendIsPlayingQuestionPacket();
                     }
 

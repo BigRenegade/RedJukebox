@@ -94,7 +94,6 @@ public class CustomRecordHelper {
         // Starts validating the custom records list, based on the config info loaded
         if (configArray != null) {
             // Debug
-            ModRedstoneJukebox.logDebugInfo("Found " + configArray.size() + " potential custom records. Initializing list...");
 
 
             // Converts the given list of string into a list of Custom Records (only valid lines)
@@ -126,8 +125,6 @@ public class CustomRecordHelper {
                             auxFile = new File(songURL.getFile());
                         }
                         catch (MalformedURLException e) {
-                            ModRedstoneJukebox.logDebug("Error creating song URL: " + e.getMessage(), Level.SEVERE);
-                            ModRedstoneJukebox.logDebug("Config Line: [" + configLine + "]", Level.SEVERE);
                         }
 
 
@@ -163,14 +160,8 @@ public class CustomRecordHelper {
                                     // Adds the songID to the list of record names
                                     recordNames += ";" + lineArray[0];
 
-                                    // Debug
-                                    ModRedstoneJukebox.logDebugInfo("Loaded custom record ID [" + auxRecord.songID + "], title [" + auxRecord.songTitle + "], url [" + songURL + "].");
                                 }
 
-                            }
-                            else {
-                                // Debug
-                                ModRedstoneJukebox.logDebug("Song [" + songURL + "] not found in [" + auxFile.getAbsolutePath() + "]. Custom record will not be loaded.", Level.WARNING);
                             }
                         }
 
@@ -180,8 +171,6 @@ public class CustomRecordHelper {
 
             }
 
-            // Debug
-            ModRedstoneJukebox.logDebugInfo("" + CustomRecordHelper.recordList.size() + " custom records initialized.");
         }
 
 

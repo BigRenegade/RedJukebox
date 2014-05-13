@@ -28,16 +28,6 @@ public class PacketHandler implements IPacketHandler {
 
     @Override
     public void onPacketData(INetworkManager manager, Packet250CustomPayload payload, Player player) {
-        // Debug
-        ModRedstoneJukebox.logDebugPacket("PacketHandler.onPacketData");
-        ModRedstoneJukebox.logDebugPacket("    Channel: " + payload.channel);
-        ModRedstoneJukebox.logDebugPacket("    Side:    " + FMLCommonHandler.instance().getEffectiveSide());
-        if (player != null) {
-            ModRedstoneJukebox.logDebugPacket("    Player:  " + player.toString());
-        }
-
-
-
 
         Side side = FMLCommonHandler.instance().getEffectiveSide();
 
@@ -45,7 +35,6 @@ public class PacketHandler implements IPacketHandler {
             try {
                 DataInputStream data = new DataInputStream(new ByteArrayInputStream(payload.data));
                 byte packetType = data.readByte();
-                ModRedstoneJukebox.logDebugPacket("    Type:    " + packetType);
 
 
 
@@ -57,16 +46,11 @@ public class PacketHandler implements IPacketHandler {
                     // Jukebox GUI Packet
                     // ----------------------------------------------------------------------------
                     if (packetType == PacketHelper.JukeboxGUIUpdate && sender.openContainer instanceof ContainerRedstoneJukebox) {
-                        // Debug
-                        ModRedstoneJukebox.logDebugPacket("   -Jukebox GUI Packet-");
 
                         // Load data
                         boolean isLoop = data.readBoolean();
                         int playMode = data.readInt();
 
-                        // Debug
-                        ModRedstoneJukebox.logDebugPacket("    [Loop]:[" + isLoop + "]");
-                        ModRedstoneJukebox.logDebugPacket("    [PlayMode]:[" + playMode + "]");
 
 
                         // Process data
@@ -86,14 +70,10 @@ public class PacketHandler implements IPacketHandler {
                     // Record Trading GUI Packet
                     // ----------------------------------------------------------------------------
                     else if (packetType == PacketHelper.RecordTradingGUIUpdate && sender.openContainer instanceof ContainerRecordTrading) {
-                        // Debug
-                        ModRedstoneJukebox.logDebugPacket("   -Record Trading GUI Packet (page change)-");
 
                         // Load data
                         int currentRecipe = data.readInt();
 
-                        // Debug
-                        ModRedstoneJukebox.logDebugPacket("    [Recipe]:[" + currentRecipe + "]");
 
 
                         // Process data
@@ -106,8 +86,6 @@ public class PacketHandler implements IPacketHandler {
                     // Response if is playing packet
                     // ----------------------------------------------------------------------------
                     else if (packetType == PacketHelper.IsPlayingAnswer) {
-                        // Debug
-                        ModRedstoneJukebox.logDebugPacket("   -Is playing answer-");
 
                         // Load data
                         byte questionId = data.readByte();
@@ -116,12 +94,6 @@ public class PacketHandler implements IPacketHandler {
                         int playY = data.readInt();
                         int playZ = data.readInt();
                         int playDim = data.readInt();
-
-                        // Debug
-                        ModRedstoneJukebox.logDebugPacket("    [Question ID]:[" + questionId + "] - expected:[" + PacketHelper.isPlayingQuestionCode + "]");
-                        ModRedstoneJukebox.logDebugPacket("    [Name]:[" + playerName + "]");
-                        ModRedstoneJukebox.logDebugPacket("    [Playing at]:[" + playX + ", " + playY + ", " + playZ + "]");
-                        ModRedstoneJukebox.logDebugPacket("    [Playing Dim]:[" + playDim + "]");
 
 
                         // Process data
@@ -138,8 +110,6 @@ public class PacketHandler implements IPacketHandler {
                     // Play Record At Packet
                     // ----------------------------------------------------------------------------
                     if (packetType == PacketHelper.PlayRecordAt) {
-                        // Debug
-                        ModRedstoneJukebox.logDebugPacket("   -Record Play Packet-");
 
                         // Load data
                         String songID = data.readUTF();
@@ -149,11 +119,6 @@ public class PacketHandler implements IPacketHandler {
                         boolean showName = data.readBoolean();
                         float volumeExtra = data.readFloat();
 
-                        // Debug
-                        ModRedstoneJukebox.logDebugPacket("    [SongID]:[" + songID + "]");
-                        ModRedstoneJukebox.logDebugPacket("    [ShowName]:[" + showName + "]");
-                        ModRedstoneJukebox.logDebugPacket("    [VolumeExtra]:[" + volumeExtra + "]");
-                        ModRedstoneJukebox.logDebugPacket("    [Source]:[" + sourceX + "],[" + sourceY + "],[" + sourceZ + "]");
 
 
                         // Process data
@@ -168,16 +133,11 @@ public class PacketHandler implements IPacketHandler {
                     // Play Record Packet (as background music)
                     // ----------------------------------------------------------------------------
                     else if (packetType == PacketHelper.PlayBgRecord) {
-                        // Debug
-                        ModRedstoneJukebox.logDebugPacket("   -Play BgRecord Packet-");
 
                         // Load data
                         String songName = data.readUTF();
                         boolean showName = data.readBoolean();
 
-                        // Debug
-                        ModRedstoneJukebox.logDebugPacket("    [SongName]:[" + songName + "]");
-                        ModRedstoneJukebox.logDebugPacket("    [ShowName]:[" + showName + "]");
 
 
                         // Process data
@@ -189,14 +149,10 @@ public class PacketHandler implements IPacketHandler {
                     // Play BgMusic Packet
                     // ----------------------------------------------------------------------------
                     else if (packetType == PacketHelper.PlayBgMusic) {
-                        // Debug
-                        ModRedstoneJukebox.logDebugPacket("   -Play BgMusic Packet-");
 
                         // Load data
                         String songName = data.readUTF();
 
-                        // Debug
-                        ModRedstoneJukebox.logDebugPacket("    [SongName]:[" + songName + "]");
 
 
                         // Process data
@@ -208,14 +164,10 @@ public class PacketHandler implements IPacketHandler {
                     // Request if is playing packet
                     // ----------------------------------------------------------------------------
                     else if (packetType == PacketHelper.IsPlayingQuestion) {
-                        // Debug
-                        ModRedstoneJukebox.logDebugPacket("   -Is playing question-");
 
                         // Load data
                         byte questionId = data.readByte();
 
-                        // Debug
-                        ModRedstoneJukebox.logDebugPacket("    [questionID]:[" + questionId + "]");
 
                         // Prepare data
                         Minecraft myMC = ModLoader.getMinecraftInstance();
