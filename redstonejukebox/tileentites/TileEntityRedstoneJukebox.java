@@ -531,7 +531,7 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
 
     // -- get the play list Names
     private String[] getSongPlayList() {
-    	Integer nxt = 1;
+    	Integer nxt = 0;
     	Boolean validRecord;
     	
         // adds the records with the regular order
@@ -552,6 +552,7 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
                     }
                 }
                 if (validRecord) {
+                	System.out.println("ERROR!!!  Error getting custom record song ID for [" + songPlayList.length + "]");
                 	System.out.println("ERROR!!!  Error getting custom record song ID for [" + CustomRecordHelper.getSongTitle(((ItemCustomRecord) Item.itemsList[s.itemID]).getSongID(s).trim()) + "]");
                 	songPlayList[nxt] = CustomRecordHelper.getSongTitle(((ItemCustomRecord) Item.itemsList[s.itemID]).getSongID(s).trim());
                 	nxt++;
@@ -559,6 +560,7 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
             }
 
         }
+        
         return songPlayList;
 
     }
