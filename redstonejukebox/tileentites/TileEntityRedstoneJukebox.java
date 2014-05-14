@@ -102,7 +102,7 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
 		startPlaying,  					// No arguments
 		stopPlaying, 					// No arguments
 		playNextRecord,					// No arguments
-		setActive,						// Required Arg: true/fdlase
+		setActive,						// Required Arg: true/false
 		getPlayList,
 		playRecord						// Required Arg: jukebox slot index
 		
