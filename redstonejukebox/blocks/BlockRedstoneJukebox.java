@@ -28,7 +28,7 @@ public class BlockRedstoneJukebox extends BlockContainer {
     --------------------------------------------------------------------*/
 
     // True if this is an active jukebox, false if idle
-    private final boolean  isActive;
+    public final boolean  isActive;
 
     /**
      * This flag is used to prevent the jukebox inventory to be dropped upon block removal, is used internally when the

@@ -22,12 +22,12 @@ public class ContainerRedstoneJukebox extends Container {
     	this.teJukebox = tileEntity;
 
         // --- Slots of the Jukebox
-
-        for (int i = 0; i < 5; i++) {
-            for (int k = 0; k < 9; k++) {
-                this.addSlotToContainer(new SlotRedstoneJukeboxRecord(this.teJukebox, k + i * 9 + 9, 8 + k * 18, -20 + i * 20));
-            }
+        for (int row = 0; row < 8; row++) {
+          for (int col = 0; col < 13; col++) {
+            addSlotToContainer(new SlotRedstoneJukeboxRecord(this.teJukebox, col + row * 13, -36 + col * 18, -40 + row * 18));
+          }
         }
+
         
         bindPlayerInventory(inventoryPlayer);
     }
@@ -37,12 +37,12 @@ public class ContainerRedstoneJukebox extends Container {
     protected void bindPlayerInventory(InventoryPlayer inventoryPlayer) {
         for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 9; j++) {
-                        addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9, 8 + j * 18, 96 + i * 18));
+                        addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9, j * 18, 108 + i * 18));
                 }
         }
 
         for (int i = 0; i < 9; i++) {
-                addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 154));
+                addSlotToContainer(new Slot(inventoryPlayer, i, i * 18, 166));
         }
 
     }
@@ -87,9 +87,9 @@ public class ContainerRedstoneJukebox extends Container {
             returnStack = myStack.copy();
 
 
-            if (slotnumber < 45) {
+            if (slotnumber < 139) {
                 // send item from the jukebox to the player
-                if (!this.mergeItemStack(myStack, 0, 45, true)) return null;
+                if (!this.mergeItemStack(myStack, 0, 104, true)) return null;
             }
             else {
                 // send a record to the jukebox

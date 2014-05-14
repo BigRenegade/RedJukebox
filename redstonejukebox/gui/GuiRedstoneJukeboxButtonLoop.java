@@ -36,7 +36,7 @@ public class GuiRedstoneJukeboxButtonLoop extends GuiButton {
             if (isMouseOver) {
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
                 par1Minecraft.getTextureManager().bindTexture(ModRedstoneJukebox.redstoneJukeboxGui);
-                this.drawTexturedModalRect(this.xPosition, this.yPosition + 2, 19, 216, GuiRedstoneJukeboxButtonLoop.myWidth, GuiRedstoneJukeboxButtonLoop.myHeight);
+                this.drawTexturedModalRect(this.xPosition, this.yPosition + 2, 200, 245, GuiRedstoneJukeboxButtonLoop.myWidth, GuiRedstoneJukeboxButtonLoop.myHeight);
             }
         }
     }

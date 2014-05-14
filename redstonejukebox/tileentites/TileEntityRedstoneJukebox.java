@@ -49,7 +49,7 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
 	
     private static int  maxDelay               = 20;
     public int          delay                  = TileEntityRedstoneJukebox.maxDelay;
-    public int			maxAmount			   = 81;
+    public int			maxAmount			   = 140;
 
     // -- Items of this jukebox
     private ItemStack[] jukeboxPlaylist        = new ItemStack[maxAmount];
@@ -72,7 +72,7 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
     private int[]		playOrder				= new int[maxAmount];
 
     // -- Indicates if this jukebox started to play a playlist
-    private boolean		isActive				= false;
+    public boolean		isActive				= false;
 
     // -- Indicates if a record of this jukebox is being played right now
     private boolean		isPlayingNow			= false;
@@ -525,7 +525,7 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
 
 
     
-    private void startPlaying() {
+    public void startPlaying() {
 
         // Sets the playlist order and play the next record
         this.setPlaylistOrder();
@@ -577,7 +577,7 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
 
 
     // -- Play selected record.
-    private void playRecord(Integer sel) {
+    public void playRecord(Integer sel) {
 
         int extraVolume = BlockRedstoneJukebox.getAmplifierPower(this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 
@@ -611,7 +611,6 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
                     recordID = ((ItemRecord) Item.itemsList[s.itemID]).recordName;
                 }
 
-                System.out.println("ERROR!!!     Playing record " + recordID);
                 // -- Try to play the record on the selected slot
                 PacketHelper.sendPlayRecordPacket(recordID, this.xCoord, this.yCoord, this.zCoord, true, extraVolume, this.worldObj.provider.dimensionId);
 
@@ -833,7 +832,7 @@ public class TileEntityRedstoneJukebox extends TileEntity implements IInventory,
 
 
     // -- Play the next record.
-    private void playNextRecord() {
+    public void playNextRecord() {
 
 
         int checkedSlot;

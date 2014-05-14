@@ -6,13 +6,10 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.settings.EnumOptions;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import redstonejukebox.ModRedstoneJukebox;
 import redstonejukebox.common.ContainerRedstoneJukebox;
 import redstonejukebox.network.PacketHelper;
@@ -22,14 +19,8 @@ import redstonejukebox.tileentites.TileEntityRedstoneJukebox;
 
 public class GuiRedstoneJukebox extends GuiContainer {
 
-    private TileEntityRedstoneJukebox jukeboxInventory;
+    public TileEntityRedstoneJukebox jukeboxInventory;
 
-    // Auxiliary info for the dancing blue note that indicates the current record playing
-    private static int				danceNoteSpeed	= 2;
-    private static int[]			danceNoteArrayX	= { 0, 1, 2, 1, 0, -1, -2, -1 };
-    private static int[]			danceNoteArrayY	= { 0, 0, 1, 0, 0, 0, 1, 0 };
-    private int						danceNoteFrame	= 0;
-    private int						danceNoteCount	= 0;
 	public float 					value			= 0.5F;
 
 
@@ -51,13 +42,14 @@ public class GuiRedstoneJukebox extends GuiContainer {
     public void initGui() {
         super.initGui();
 
-        this.buttonList.add(new GuiRedstoneJukeboxButtonLoop(0, this.guiLeft + 63, this.guiTop + 79));
-        this.buttonList.add(new GuiRedstoneJukeboxButtonVolumeUp(1, this.guiLeft + 89, this.guiTop + 79));
-        this.buttonList.add(new GuiRedstoneJukeboxButtonVolumeDown(2, this.guiLeft + 99, this.guiTop + 79));
-        this.buttonList.add(new GuiRedstoneJukeboxButtonPlayMode(3, this.guiLeft + 116, this.guiTop + 79));
+        this.buttonList.add(new GuiRedstoneJukeboxButtonLoop(0, this.guiLeft + 174, this.guiTop + 147));
+        this.buttonList.add(new GuiRedstoneJukeboxButtonVolumeUp(1, this.guiLeft - 34, this.guiTop + 130));
+        this.buttonList.add(new GuiRedstoneJukeboxButtonVolumeDown(2, this.guiLeft - 24, this.guiTop + 130));
+        this.buttonList.add(new GuiRedstoneJukeboxButtonPlayMode(3, this.guiLeft + 154, this.guiTop + 126));
+        this.buttonList.add(new GuiRedstoneJukeboxButtonPowerOn(4, this.guiLeft - 29, this.guiTop + 146));
+        this.buttonList.add(new GuiRedstoneJukeboxButtonPrevious(5, this.guiLeft - 29, this.guiTop + 167));
+        this.buttonList.add(new GuiRedstoneJukeboxButtonNext(6, this.guiLeft + 180, this.guiTop + 167));
     }
-
-
 
 
     /*
@@ -106,6 +98,34 @@ public class GuiRedstoneJukebox extends GuiContainer {
                 }
                 break;
 
+
+            case 4:
+                // Swap power mode (off / on)
+                if (!this.jukeboxInventory.isActive) {
+                    this.jukeboxInventory.isActive = true;
+
+                }
+                else {
+                    this.jukeboxInventory.isActive = false;
+                }
+                break;
+
+            case 5:
+                // Play previous record
+            	int prevSlot = this.jukeboxInventory.getCurrentJukeboxPlaySlot();
+                if (prevSlot > -1) {
+                	prevSlot--;
+                	this.jukeboxInventory.playRecord(prevSlot);
+                }
+            	break;
+            	
+            case 6:
+                // Play next record
+            	int nextSlot = this.jukeboxInventory.getCurrentJukeboxPlaySlot();
+                if (nextSlot < this.jukeboxInventory.maxAmount) {
+                	this.jukeboxInventory.playNextRecord();
+                }
+            	break;
             }
 
 
@@ -126,13 +146,16 @@ public class GuiRedstoneJukebox extends GuiContainer {
      */
     @Override
     protected void drawGuiContainerForegroundLayer(int x, int y) {
-        this.fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, this.ySize - 84, 4210752);
+        this.fontRenderer.drawString(StatCollector.translateToLocal(""), 8, this.ySize - 84, 4210752);
 
         // Tooltips
         GuiButton btPlayLoop = (GuiButton) this.buttonList.get(0);
         GuiButton btVolumeUp = (GuiButton) this.buttonList.get(1);
         GuiButton btVolumeDown = (GuiButton) this.buttonList.get(2);
         GuiButton btPlaymode = (GuiButton) this.buttonList.get(3);
+        GuiButton btPower = (GuiButton) this.buttonList.get(4);
+        GuiButton btPrevious = (GuiButton) this.buttonList.get(5);
+        GuiButton btNext = (GuiButton) this.buttonList.get(6);
 
         if (btPlayLoop.func_82252_a()) {
         	if (!jukeboxInventory.isLoop)
@@ -158,6 +181,21 @@ public class GuiRedstoneJukebox extends GuiContainer {
                 this.drawCreativeTabHoveringText("Play mode: Shuffle", x - this.guiLeft, y - this.guiTop + 31);
                 break;
             }
+        }
+        else if (btPower.func_82252_a()) {
+        	if (!jukeboxInventory.isActive)
+        	{
+        		this.drawCreativeTabHoveringText("Power: Off", x - this.guiLeft, y - this.guiTop + 31);
+        	}
+        	else {
+        		this.drawCreativeTabHoveringText("Power: On", x - this.guiLeft, y - this.guiTop + 31);
+        	}
+        }
+        else if (btPrevious.func_82252_a()) {
+                this.drawCreativeTabHoveringText("Previous record", x - this.guiLeft, y - this.guiTop + 31);
+        }
+        else if (btNext.func_82252_a()) {
+                this.drawCreativeTabHoveringText("Next record", x - this.guiLeft, y - this.guiTop + 31);
         }
 
     }
@@ -189,20 +227,29 @@ public class GuiRedstoneJukebox extends GuiContainer {
         this.mc.getTextureManager().bindTexture(ModRedstoneJukebox.redstoneJukeboxGui);
         int j = (this.width - this.xSize) / 2;
         int k = (this.height - this.ySize) / 2;
-        this.drawTexturedModalRect(j, k - 28, 0, 0, this.xSize, this.ySize + 40);
+        this.drawTexturedModalRect(j - 48, k - 48, 0, 0, this.xSize + 80, this.ySize + 72);
 
 
         // -- loop indicator
         if (this.jukeboxInventory.isLoop) {
             // play loop
-            this.drawTexturedModalRect(j + 63, k + 81, 0, 216, 18, 9);
+            this.drawTexturedModalRect(j + 174, k + 147, 19, 239, 18, 9);
         }
         else {
             // play once
-            this.drawTexturedModalRect(j + 63, k + 81, 0, 206, 18, 9);
+            this.drawTexturedModalRect(j + 174, k + 147, 0, 239, 18, 9);
         }
 
 
+        // -- power indicator
+        if (!jukeboxInventory.isActive) {
+            // power off
+            this.drawTexturedModalRect(j - 28, k + 145, 146, 239, 10, 10);
+        }
+        else {
+            // power on
+            this.drawTexturedModalRect(j - 28, k + 145, 157, 239, 10, 10);
+        }
 
 
         // -- play mode indicator
@@ -215,12 +262,12 @@ public class GuiRedstoneJukebox extends GuiContainer {
         switch (this.jukeboxInventory.playMode) {
         case 0:
             // normal
-            this.drawTexturedModalRect(j + 116, k + 81, 39, 217, 52, 10);
+            this.drawTexturedModalRect(j + 162, k + 127, 39, 239, 40, 10);
             break;
 
         case 1:
             // shuffle
-            this.drawTexturedModalRect(j + 116, k + 81, 92, 217, 52, 10);
+            this.drawTexturedModalRect(j + 162, k + 127, 82, 239, 40, 10);
             break;
 
      }
