@@ -1,0 +1,17 @@
+package invtweaks.api.container;
+
+import java.lang.annotation.Annotation;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target({java.lang.annotation.ElementType.METHOD})
+public @interface ContainerSectionCallback
+{
+}
+
+/* Location:           D:\MultiMCNew\instances\164 Clean\all mods\MPC_Chest\MulitPageChest-deob.zip
+ * Qualified Name:     invtweaks.api.container.ContainerSectionCallback
+ * JD-Core Version:    0.6.0
+ */
