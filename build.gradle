@@ -18,9 +18,9 @@ if (System.getenv().BUILD_NUMBER != null)
 else
 	ext.buildNumber = 0
 
-version = "0.1.0"
-group = "pcl.openlights"
-archivesBaseName = "OpenLights"
+version = "2.0"
+group = "redstonejukebox"
+archivesBaseName = "RedstoneJukebox"
 
 minecraft {
 	version = "1.6.4-9.11.1.964"
